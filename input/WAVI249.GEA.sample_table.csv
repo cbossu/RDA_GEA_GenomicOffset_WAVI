@@ -1,0 +1,250 @@
+Sample,Genoscape,Population,Region,SampleName,Contact,CollectionDate,Country_code,State,CityTown,Location,latitude,longitude,State2_donotuse,Region1,Region2,MapNum,MapNum2,MapNum3,X23
+00N2075,Genoscape_rmrel_rm6pop,Pemberton,West_rmrel,184078405,Kristen Ruegg,2000-06-10,Canada,BC,Pemberton,Pemberton,50.311876,-122.79917,British Columbia_west,BC_west,BC_Pemberton,I,K,L,NA
+00N2077,Genoscape_rmrel_rm6pop,Pemberton,West_rmrel,184078406,NA,2000-06-10,Canada,BC,Pemberton Valley,Pemberton,50.311876,-122.79917,British Columbia_west,BC_west,BC_Pemberton,I,K,L,NA
+00N2079,Genoscape_rmrel_rm6pop,Pemberton,West_rmrel,184078409,Kristen Ruegg,2000-06-10,Canada,BC,Pemberton,Pemberton,50.311876,-122.79917,British Columbia_west,BC_west,BC_Pemberton,I,K,L,NA
+00N2083,Genoscape_rmrel_rm6pop,Pemberton,West_rmrel,184078411,Kristen Ruegg,2000-06-11,Canada,BC,Pemberton,Pemberton,50.311876,-122.79917,British Columbia_west,BC_west,BC_Pemberton,I,K,L,NA
+00N4856,Genoscape_rmrel_rm6pop,Boise,West_rmrel,217099765,Jay Carlisle,2000-07-13,USA,ID,Boise,Boise,43.604977,-116.0598,ID_Boise,ID_Boise,ID_Boise,AL,AL,AO,NA
+00N4857,Genoscape_rmrel_rm6pop,Boise,West_rmrel,217097764,Jay Carlisle,2000-07-13,USA,ID,Boise,Boise,43.604977,-116.0598,ID_Boise,ID_Boise,ID_Boise,AL,AL,AO,NA
+00N5342,Genoscape_rmrel_rm6pop,CoOR,West_rmrel,219087701,Leroy Fish,2000-07-18,USA,OR,Blachly,CoOR,44.202778,-123.56944,CoOR,OR,OR,P,R,S,NA
+00N5343,Genoscape_rmrel_rm6pop,CoOR,West_rmrel,219048399,Leroy Fish,2000-07-18,USA,OR,Blachly,CoOR,44.202778,-123.56944,CoOR,OR,OR,P,R,S,NA
+00N5729,Genoscape_rmrel_rm6pop,IkenickCreek,West_rmrel,219050406,NA,2000-05-20,USA,OR,Ikenick Creek,IkenickCreek,44.37,-122.01917,Ikenick Creek,OR,OR,O,Q,R,NA
+00N6133,Genoscape_rmrel_rm6pop,NEOR,West_rmrel,212026268,NA,2000-07-04,USA,OR,Elgin,Elgin,45.816944,-117.86472,Elgin,OR,OR,N,P,Q,NA
+00N6134,Genoscape_rmrel_rm6pop,NEOR,West_rmrel,216038652,NA,2000-07-04,USA,OR,Elgin,Elgin,45.816944,-117.86472,Elgin,OR,OR,N,P,Q,NA
+01N5211,Genoscape_rmrel_rm6pop,Masterson,West_rmrel,219105975,NA,2001-07-10,USA,CA,Masterson,Masterson,40.956667,-123.48528,Masterson,CA,CA,Q1,S1,T,NA
+01N5212,Genoscape_rmrel_rm6pop,Masterson,West_rmrel,221005883,NA,2001-07-19,USA,CA,Masterson,Masterson,40.956667,-123.48528,Masterson,CA,CA,Q1,S1,T,NA
+01N9577,Genoscape_rmrel_rm6pop,Silverton,West_rmrel,216036182,NA,2001-06-14,USA,WA,Silverton,Silverton,48.163056,-121.44722,WA,WA,WA,L,N,O,NA
+01N9579,Genoscape_rmrel_rm6pop,Silverton,West_rmrel,212022902,NA,2001-06-16,USA,WA,Silverton,Silverton,48.050833,-121.4325,WA,WA,WA,L,N,O,NA
+02N1553,Genoscape_rmrel_rm6pop,IkenickCreek,West_rmrel,225023999,IBP - MAPS,2002-05-31,USA,OR,Ikenick Creek,IkenickCreek,44.37,-122.01917,Ikenick Creek,OR,OR,O,Q,R,NA
+02N1554,Genoscape_rmrel_rm6pop,IkenickCreek,West_rmrel,225022069,IBP - MAPS,2002-07-11,USA,OR,Ikenick Creek,IkenickCreek,44.37,-122.01917,Ikenick Creek,OR,OR,O,Q,R,NA
+02N1784,Genoscape_rmrel_rm6pop,NEOR,West_rmrel,212026184,IBP - MAPS,2002-06-12,USA,OR,Elgin,Elgin,45.816944,-117.86472,Elgin,OR,OR,N,P,Q,NA
+02N1787,Genoscape_rmrel_rm6pop,NEOR,West_rmrel,222070660,IBP - MAPS,2002-06-20,USA,OR,Elgin,Elgin,45.678611,-118.115,Elgin,OR,OR,N,P,Q,NA
+02N1788,Genoscape_rmrel_rm6pop,NEOR,West_rmrel,222070661,IBP - MAPS,2002-06-20,USA,OR,Elgin,Elgin,45.678611,-118.115,Elgin,OR,OR,N,P,Q,NA
+02N7032,Genoscape_rmrel_rm6pop,CoOR,West_rmrel,224049347,Dennis Vroman,2002-07-06,USA,OR,Agness,CoOR,42.614167,-123.85111,CoOR,OR,OR,P,R,S,NA
+02N9715,Genoscape_rmrel_rm6pop,Tendoy,West_rmrel,220076988,Vince Guyer,2002-06-28,USA,ID,Tendoy,Tendoy,44.987222,-113.56861,ID_Tendoy,ID_Tendoy,ID_Tendoy,AJ,AJ,AM,NA
+02N9716,Genoscape_rmrel_rm6pop,Tendoy,West_rmrel,220076987,Vince Guyer,2002-06-28,USA,ID,Tendoy,Tendoy,44.987222,-113.56861,ID_Tendoy,ID_Tendoy,ID_Tendoy,AJ,AJ,AM,NA
+03N0505,Genoscape_rmrel_rm6pop,Silverton,West_rmrel,210071473,IBP - MAPS,2003-06-03,USA,WA,Silverton,Silverton,48.050833,-121.4325,WA,WA,WA,L,N,O,NA
+03N2005,Genoscape_rmrel_rm6pop,Pemberton,West_rmrel,185187201,NA,2003-07-03,Canada,BC,Pemberton,Pemberton,50.220391,-122.88121,British Columbia_west,BC_west,BC_Pemberton,I,K,L,NA
+04N2167,Genoscape_rmrel_rm6pop,Michigan,East_rmrel,234004277,Brenda Keith,2004-06-06,USA,MI,Vicksburg,MI,42.166667,-85.519444,MI,MI,MI,BC,BC,BD,NA
+04N2168,Genoscape_rmrel_rm6pop,Michigan,East_rmrel,234004462,Brenda Keith,2004-06-06,USA,MI,Vicksburg,MI,42.166667,-85.519444,MI,MI,MI,BC,BC,BD,NA
+04N2169,Genoscape_rmrel_rm6pop,Michigan,East_rmrel,234004463,Brenda Keith,2004-06-06,USA,MI,Vicksburg,MI,42.166667,-85.519444,MI,MI,MI,BC,BC,BD,NA
+04N4530,Genoscape_rmrel_rm6pop,IkenickCreek,West_rmrel,228050460,IBP - MAPS,2004-06-16,USA,OR,Ikenick Creek,IkenickCreek,44.37,-122.01917,Ikenick Creek,OR,OR,O,Q,R,NA
+04N6714,Genoscape_rmrel_rm6pop,Silverton,West_rmrel,311193143,IBP - MAPS,2004-06-14,USA,WA,Silverton,Silverton,48.063611,-121.51611,WA,WA,WA,L,N,O,NA
+04N6715,Genoscape_rmrel_rm6pop,Silverton,West_rmrel,216038134,IBP - MAPS,2004-06-22,USA,WA,Silverton,Silverton,48.050833,-121.4325,WA,WA,WA,L,N,O,NA
+05N7227,Genoscape_rmrel_rm6pop,Tendoy,West_rmrel,228072406,Vince Guyer,2005-06-16,USA,ID,Tendoy,Tendoy,44.987222,-113.56861,ID_Tendoy,ID_Tendoy,ID_Tendoy,AJ,AJ,AM,NA
+05N7228,Genoscape_rmrel_rm6pop,Tendoy,West_rmrel,228072401,Vince Guyer,2005-06-16,USA,ID,Tendoy,Tendoy,44.987222,-113.56861,ID_Tendoy,ID_Tendoy,ID_Tendoy,AJ,AJ,AM,NA
+05N7230,Genoscape_rmrel_rm6pop,Tendoy,West_rmrel,228072404,Vince Guyer,2005-07-07,USA,ID,Tendoy,Tendoy,44.987222,-113.56861,ID_Tendoy,ID_Tendoy,ID_Tendoy,AJ,AJ,AM,NA
+05N8550,Genoscape_rmrel_rm6pop,Michigan,East_rmrel,234006970,Brenda Keith,2005-06-09,USA,MI,Vicksburg,MI,42.166667,-85.519444,MI,MI,MI,BC,BC,BD,NA
+08N23381,Genoscape_rmrel_rm6pop,Michigan,East_rmrel,240089629,Brenda Keith,2008-06-12,USA,MI,Vicksburg,MI,42.16667,-85.51944,MI,MI,MI,BC,BC,BD,NA
+09N14292,Genoscape_rmrel_rm6pop,Arizona,West_rmrel,183176890,Ania Majewska,2009-06-07,USA,AZ,Happy Jack,HappyJack,34.6111186,-111.18836,AZ,Southwest,Southwest,Y,Y,AA,NA
+09N14300,Genoscape_rmrel_rm6pop,Arizona,West_rmrel,232146200,Ania Majewska,2009-06-07,USA,AZ,Happy Jack,HappyJack,34.6111186,-111.18836,AZ,Southwest,Southwest,Y,Y,AA,NA
+09N14307,Genoscape_rmrel_rm6pop,Arizona,West_rmrel,232146120,Ania Majewska,2009-07-04,USA,AZ,Happy Jack,HappyJack,34.6111186,-111.18836,AZ,Southwest,Southwest,Y,Y,AA,NA
+09N14336,Genoscape_rmrel_rm6pop,Arizona,West_rmrel,232193981,Ania Majewska,2009-07-06,USA,AZ,Happy Jack,HappyJack,34.6111186,-111.18836,AZ,Southwest,Southwest,Y,Y,AA,NA
+09N17750,Genoscape_rmrel_rm6pop,Yosemite,West_rmrel,249097876,Lauren Helton,2009-06-25,USA,CA,Yosemite Village,Yosemite,37.87028,-119.6522,Yosemite,CA,CA,R,T,V,NA
+15N2844,Genoscape_rmrel_rm6pop,Pennsylvania,East_rmrel,274029179,NA,2015-06-19,USA,PA,Bethlehem,PA,40.65409,-75.62908,PA,PA,PA,BD,BD,BE,NA
+18N006432,Genoscape_rmrel_rm6pop,Yosemite,West_rmrel,266008996,Lauren Helton,2018-06-02,USA,CA,Yosemite Village,Yosemite,37.87028,-119.6522,Yosemite,CA,CA,R,T,V,NA
+18N04511,Genoscape_rmrel_rm6pop,Boise,West_rmrel,284055613,Heidi Ware,2018-07-06,USA,ID,Boise,Boise,43.68506,-116.1272,ID_Boise,ID_Boise,ID_Boise,AL,AL,AO,NA
+18N04513,Genoscape_rmrel_rm6pop,Boise,West_rmrel,284055611,Heidi Ware,2018-07-06,USA,ID,Boise,Boise,43.68506,-116.1272,ID_Boise,ID_Boise,ID_Boise,AL,AL,AO,NA
+19N004705,Genoscape_rmrel_rm6pop,Yosemite,West_rmrel,283037711,Lauren Helton,2019-05-25,USA,CA,Yosemite Village,Yosemite,37.87028,-119.6522,Yosemite,CA,CA,R,T,V,NA
+19N004708,Genoscape_rmrel_rm6pop,Yosemite,West_rmrel,284046363,Lauren Helton,2019-06-03,USA,CA,Yosemite Village,Yosemite,37.87028,-119.6522,Yosemite,CA,CA,R,T,V,NA
+20N001355,Genoscape_rmrel_rm6pop,Pennsylvania,East_rmrel,287044910,Gigi Gerben,2020-06-09,USA,PA,Venetia,PA,40.21,-80.02083,PA,PA,PA,BD,BD,BE,NA
+23N01650,Genoscape_rmrel_rm6pop,Boise,West_rmrel,285078720,Heidi Carlisle,2019-07-06,USA,ID,Boise,Boise,43.542166,-116.09756,ID_Boise,ID_Boise,ID_Boise,AL,AL,AO,NA
+23N09617,Genoscape_rmrel_rm6pop,Yosemite,West_rmrel,291071451,Lauren Helton,2022-05-28,USA,CA,Yosemite Village,Yosemite,37.87028,-119.6522,Yosemite,CA,CA,R,T,V,NA
+23N15754,Genoscape_rmrel_rm6pop,Pennsylvania,East_rmrel,294038700,Annie Lindsay,2023-05-07,USA,PA,Rector,PA,40.16509,-79.26743,PA,PA,PA,BD,BD,BE,NA
+24N11935,Genoscape_rmrel_rm6pop,Boulder,West_rmrel,288052637,Amanda Carpenter,2024-06-17,USA,CO,Boulder,Boulder,40.039932,-105.19016,CO_west,CO_Boulder,CO_Boulder,AA,AA,AC,NA
+24N11936,Genoscape_rmrel_rm6pop,Boulder,East_rmrel,288052638,Amanda Carpenter,2024-06-17,USA,CO,Boulder,Boulder,40.041341,-105.18961,CO_east,CO_Boulder,CO_Boulder,AA,AA,AC,NA
+24N11937,Genoscape_rmrel_rm6pop,FortCollins,East_rmrel,288052640,Amanda Carpenter,2024-06-19,USA,CO,Fort Collins,FortCollins,40.52991,-104.99886,CO_east,CO_FortCollins,CO_FortCollins,AT,AT,AD,NA
+24N11938,Genoscape_rmrel_rm6pop,FortCollins,East_rmrel,288052641,Amanda Carpenter,2024-06-19,USA,CO,Fort Collins,FortCollins,40.48457,-105.01682,CO_east,CO_FortCollins,CO_FortCollins,AT,AT,AD,NA
+24N11939,Genoscape_rmrel_rm6pop,FortCollins,East_rmrel,288052642,Amanda Carpenter,2024-06-19,USA,CO,Fort Collins,FortCollins,40.48457,-105.01682,CO_east,CO_FortCollins,CO_FortCollins,AT,AT,AD,NA
+24N11942,Genoscape_rmrel_rm6pop,Kansas,East_rmrel,294064227,Johanna Beam,2024-06-05,USA,KS,Halstead,KS,38.07779,-97.58472,KS,KS,KS,BB,BB,BC,NA
+24N11943,Genoscape_rmrel_rm6pop,Kansas,East_rmrel,294064229,Johanna Beam,2024-06-06,USA,KS,Wilson,KS,38.92571,-98.48671,KS,KS,KS,BB,BB,BC,NA
+24N11945,Genoscape_rmrel_rm6pop,Kansas,East_rmrel,294064234,Johanna Beam,2024-06-07,USA,KS,Atwood,KS,39.72901,-100.8137,KS,KS,KS,BB,BB,BC,NA
+24N12573,Genoscape_rmrel_rm6pop,Anaconda,West_rmrel,195039596,Vanna Boccadori,2024-06-13,USA,MT,Anaconda,Anaconda,46.07,-112.92,MT_Anaconda,MT_Anaconda,MT_Anaconda,AI,AI,AL,NA
+24N12574,Genoscape_rmrel_rm6pop,Anaconda,West_rmrel,195039597,Vanna Boccadori,2024-06-25,USA,MT,Anaconda,Anaconda,46.07,-112.92,MT_Anaconda,MT_Anaconda,MT_Anaconda,AI,AI,AL,NA
+24N12576,Genoscape_rmrel_rm6pop,Anaconda,West_rmrel,195039599,Vanna Boccadori,2024-07-02,USA,MT,Anaconda,Anaconda,46.07,-112.92,MT_Anaconda,MT_Anaconda,MT_Anaconda,AI,AI,AL,NA
+24N12577,Genoscape_rmrel_rm6pop,Anaconda,West_rmrel,195039600,Vanna Boccadori,2024-07-02,USA,MT,Anaconda,Anaconda,46.07,-112.92,MT_Anaconda,MT_Anaconda,MT_Anaconda,AI,AI,AL,NA
+24N12578,Genoscape_rmrel_rm6pop,Anaconda,West_rmrel,195039901,Vanna Boccadori,2024-07-02,USA,MT,Anaconda,Anaconda,46.07,-112.92,MT_Anaconda,MT_Anaconda,MT_Anaconda,AI,AI,AL,NA
+24N12632,Genoscape_rmrel_rm6pop,Missoula,West_rmrel,297094199,Megan Fylling,2024-06-26,USA,MT,Missoula,Missoula,46.7252778,-113.65278,MT_Missoula,MT_Missoula,MT_Missoula,AO,AO,AR,NA
+24N12633,Genoscape_rmrel_rm6pop,Missoula,West_rmrel,297094269,Megan Fylling,2024-07-03,USA,MT,Missoula,Missoula,46.7252778,-113.65278,MT_Missoula,MT_Missoula,MT_Missoula,AO,AO,AR,NA
+24N12637,Genoscape_rmrel_rm6pop,Missoula,West_rmrel,301042544,Megan Fylling,2024-06-26,USA,MT,Missoula,Missoula,46.7252778,-113.65278,MT_Missoula,MT_Missoula,MT_Missoula,AO,AO,AR,NA
+24N12638,Genoscape_rmrel_rm6pop,Missoula,West_rmrel,301042574,Megan Fylling,2024-07-16,USA,MT,Missoula,Missoula,46.7252778,-113.65278,MT_Missoula,MT_Missoula,MT_Missoula,AO,AO,AR,NA
+24N12639,Genoscape_rmrel_rm6pop,Missoula,West_rmrel,301042589,Megan Fylling,2024-07-25,USA,MT,Missoula,Missoula,46.7252778,-113.65278,MT_Missoula,MT_Missoula,MT_Missoula,AO,AO,AR,NA
+24N13243,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193363,Theresa Burg,2019-06-09,Canada,ALB,Medicine Hat,MedicineHat,50.0399043,-110.63918,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,AY,AY,AV,NA
+24N13244,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193364,Theresa Burg,2019-06-09,Canada,ALB,Medicine Hat,MedicineHat,50.0399043,-110.63918,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,AY,AY,AV,NA
+24N13249,Genoscape_rmrel_rm6pop,CypressHills,West_rmrel,169193369,Theresa Burg,2019-06-10,Canada,ALB,Cypress Hills,CypressHills,49.6446024,-110.03191,Alberta_west,ALB_CypressHills,ALB_CypressHills,AS,AS,AU,NA
+24N13250,Genoscape_rmrel_rm6pop,CypressHills,West_rmrel,169193370,Theresa Burg,2019-06-10,Canada,ALB,Cypress Hills,CypressHills,49.6446024,-110.03191,Alberta_west,ALB_CypressHills,ALB_CypressHills,AS,AS,AU,NA
+24N13256,Genoscape_rmrel_rm6pop,CypressHills,West_rmrel,169193376,Theresa Burg,2019-06-10,Canada,ALB,Cypress Hills,CypressHills,49.6573104,-110.10212,Alberta_west,ALB_CypressHills,ALB_CypressHills,AS,AS,AU,NA
+24N13260,Genoscape_rmrel_rm6pop,CypressHills,West_rmrel,169193380,Theresa Burg,2019-06-11,Canada,ALB,Cypress Hills,CypressHills,49.6187497,-110.09679,Alberta_west,ALB_CypressHills,ALB_CypressHills,AS,AS,AU,NA
+24N13264,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193385,Theresa Burg,2019-06-12,Canada,ALB,Medicine Hat,MedicineHat,50.0394853,-110.65325,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,AY,AY,AV,NA
+24N13265,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193386,Theresa Burg,2019-06-12,Canada,ALB,Medicine Hat,MedicineHat,50.0394853,-110.65325,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,AY,AY,AV,NA
+24N13266,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193388,Theresa Burg,2019-06-12,Canada,ALB,Medicine Hat,MedicineHat,50.0402676,-110.64907,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,AY,AY,AV,NA
+24N13269,Genoscape_rmrel_rm6pop,Lethbridge,East_rmrel,169193392,Theresa Burg,2019-06-14,Canada,ALB,Lethbridge,Lethbridge,49.6843834,-112.85385,Alberta_east,ALB_Lethbridge,ALB_Lethbridge,AX,AX,AZ,NA
+24N13270,Genoscape_rmrel_rm6pop,Lethbridge,East_rmrel,169193393,Theresa Burg,2019-06-18,Canada,ALB,Lethbridge,Lethbridge,49.1020269,-112.8619,Alberta_east,ALB_Lethbridge,ALB_Lethbridge,AX,AX,AZ,NA
+24N13271,Genoscape_rmrel_rm6pop,Lethbridge,East_rmrel,169193394,Theresa Burg,2019-06-18,Canada,ALB,Lethbridge,Lethbridge,49.7558804,-112.85049,Alberta_east,ALB_Lethbridge,ALB_Lethbridge,AX,AX,AZ,NA
+24N13272,Genoscape_rmrel_rm6pop,Regina,East_rmrel,169193395,Theresa Burg,2019-06-23,Canada,SK,Regina,SK,50.428096,-104.60594,Saskatchewan,SK,SK,AZ,AZ,BA,NA
+24N13273,Genoscape_rmrel_rm6pop,Regina,East_rmrel,169193396,Theresa Burg,2019-06-23,Canada,SK,Regina,SK,50.428096,-104.60594,Saskatchewan,SK,SK,AZ,AZ,BA,NA
+24N13274,Genoscape_rmrel_rm6pop,Regina,East_rmrel,169193400,Theresa Burg,2019-06-23,Canada,SK,Regina,SK,50.428923,-104.59432,Saskatchewan,SK,SK,AZ,AZ,BA,NA
+24N13280,Genoscape_rmrel_rm6pop,Regina,East_rmrel,209171903,Theresa Burg,2019-06-25,Canada,SK,Regina,SK,50.4329,-104.59066,Saskatchewan,SK,SK,AZ,AZ,BA,NA
+24N13285,Genoscape_rmrel_rm6pop,WEdmonton,East_rmrel,209171910,Theresa Burg,2019-07-03,Canada,ALB,Spruce Grove (Edmonton),SpruceGrove,53.4131747,-113.79175,Alberta_east,ALB_SpruceGrove,ALB_SpruceGrove,AU,AU,AW,NA
+24N13286,Genoscape_rmrel_rm6pop,WEdmonton,East_rmrel,209171911,Theresa Burg,2019-07-03,Canada,ALB,Spruce Grove (Edmonton),SpruceGrove,53.4131747,-113.79175,Alberta_east,ALB_SpruceGrove,ALB_SpruceGrove,AU,AU,AW,NA
+24N13288,Genoscape_rmrel_rm6pop,WEdmonton,East_rmrel,209171916,Theresa Burg,2019-07-04,Canada,ALB,Spruce Grove (Edmonton),SpruceGrove,53.4131747,-113.79175,Alberta_east,ALB_SpruceGrove,ALB_SpruceGrove,AU,AU,AW,NA
+24N13289,Genoscape_rmrel_rm6pop,WEdmonton,East_rmrel,209171918,Theresa Burg,2019-07-04,Canada,ALB,Spruce Grove (Edmonton),SpruceGrove,53.4131747,-113.79175,Alberta_east,ALB_SpruceGrove,ALB_SpruceGrove,AU,AU,AW,NA
+24N13290,Genoscape_rmrel_rm6pop,Canmore_Banff,West_rmrel,222185087,Theresa Burg,2018-06-25,Canada,ALB,Canmore,Canmore_Banff,51.07993,-115.37416,Alberta_west,ALB_Canmore_Banff,ALB_Canmore_Banff,F,H,I,NA
+24N13294,Genoscape_rmrel_rm6pop,Kamloops,West_rmrel,222185092,Theresa Burg,2019-05-28,Canada,BC,Kamloops,Kamloops,50.5915699,-120.38641,British Columbia_west,BC_west,BC_Kamloops,H,J,K,NA
+24N13296,Genoscape_rmrel_rm6pop,Kamloops,West_rmrel,222185096,Theresa Burg,2019-05-29,Canada,BC,Kamloops,Kamloops,50.5915699,-120.38641,British Columbia_west,BC_west,BC_Kamloops,H,J,K,NA
+24N13297,Genoscape_rmrel_rm6pop,Kamloops,West_rmrel,222185098,Theresa Burg,2019-05-29,Canada,BC,Kamloops,Kamloops,50.5500456,-120.44009,British Columbia_west,BC_west,BC_Kamloops,H,J,K,NA
+24N13298,Genoscape_rmrel_rm6pop,Kamloops,West_rmrel,222185099,Theresa Burg,2019-05-29,Canada,BC,Kamloops,Kamloops,50.5500456,-120.44009,British Columbia_west,BC_west,BC_Kamloops,H,J,K,NA
+24N13300,Genoscape_rmrel_rm6pop,NEWA,West_rmrel,258049343,Theresa Burg,2013-06-02,USA,WA,Aladdin,NEWA,48.611333,-117.55381,WA,WA,WA,M,O,P,NA
+24N13301,Genoscape_rmrel_rm6pop,ND,East_rmrel,254023097,Theresa Burg,2013-07-01,USA,ND,Cole Ford,ND,48.536806,-100.52481,ND,ND,ND,BA,BA,BB,NA
+24N13302,Genoscape_rmrel_rm6pop,NEWA,West_rmrel,258049329,Theresa Burg,2013-05-31,USA,WA,Usk,NEWA,48.255861,-117.39219,WA,WA,WA,M,O,P,NA
+24N13303,Genoscape_rmrel_rm6pop,NEWA,West_rmrel,258049332,Theresa Burg,2013-05-31,USA,WA,Park Rapids,NEWA,48.575667,-117.64589,WA,WA,WA,M,O,P,NA
+24N13304,Genoscape_rmrel_rm6pop,NEWA,West_rmrel,258049333,Theresa Burg,2013-05-31,USA,WA,Park Rapids,NEWA,48.575667,-117.64589,WA,WA,WA,M,O,P,NA
+24N13305,Genoscape_rmrel_rm6pop,NEWA,West_rmrel,258049340,Theresa Burg,2013-06-02,USA,WA,NA,NEWA,48.611333,-117.55381,WA,WA,WA,M,O,P,NA
+24N13307,Genoscape_rmrel_rm6pop,ND,East_rmrel,258049395,Theresa Burg,2013-06-21,USA,ND,Towner,ND,48.471972,-100.33673,ND,ND,ND,BA,BA,BB,NA
+24N13308,Genoscape_rmrel_rm6pop,ND,East_rmrel,258049398,Theresa Burg,2013-06-22,USA,ND,Cole Ford,ND,48.536806,-100.52481,ND,ND,ND,BA,BA,BB,NA
+24N13309,Genoscape_rmrel_rm6pop,ND,East_rmrel,254023071,Theresa Burg,2013-06-22,USA,ND,Cole Ford,ND,48.536806,-100.52481,ND,ND,ND,BA,BA,BB,NA
+24N13312,Genoscape_rmrel_rm6pop,Whitefish,West_rmrel,259137603,Theresa Burg,2018-05-28,USA,MT,Whitefish,Whitefish,48.36615,-114.53925,MT_contact,MT_Whitefish,MT_Whitefish,AQ,AQ,AT,NA
+24N13316,Genoscape_rmrel_rm6pop,Whitefish,West_rmrel,259137607,Theresa Burg,2018-05-30,USA,MT,Whitefish,Whitefish,48.41437,-114.58324,MT_contact,MT_Whitefish,MT_Whitefish,AQ,AQ,AT,NA
+24N13318,Genoscape_rmrel_rm6pop,Whitefish,West_rmrel,259137609,Theresa Burg,2018-05-30,USA,MT,Whitefish,Whitefish,48.41437,-114.58324,MT_contact,MT_Whitefish,MT_Whitefish,AQ,AQ,AT,NA
+24N13319,Genoscape_rmrel_rm6pop,Whitefish,West_rmrel,259137610,Theresa Burg,2018-05-30,USA,MT,Whitefish,Whitefish,48.41437,-114.58324,MT_contact,MT_Whitefish,MT_Whitefish,AQ,AQ,AT,NA
+24N13320,Genoscape_rmrel_rm6pop,Whitefish,West_rmrel,259137611,Theresa Burg,2018-05-31,USA,MT,Whitefish,Whitefish,48.41437,-114.58324,MT_contact,MT_Whitefish,MT_Whitefish,AQ,AQ,AT,NA
+24N13331,Genoscape_rmrel_rm6pop,Bozeman,West_rmrel,259137646,Theresa Burg,2018-06-08,USA,MT,Bozeman,Bozeman,45.59178,-111.02596,MT_west,MT_Bozeman,MT_Bozeman,AH,AH,AK,NA
+24N13332,Genoscape_rmrel_rm6pop,Bozeman,West_rmrel,259137634,Theresa Burg,2018-06-06,USA,MT,Bozeman,Bozeman,45.59178,-111.02596,MT_west,MT_Bozeman,MT_Bozeman,AH,AH,AK,NA
+24N13333,Genoscape_rmrel_rm6pop,Bozeman,West_rmrel,259137635,Theresa Burg,2018-06-06,USA,MT,Bozeman,Bozeman,45.48612,-110.97139,MT_west,MT_Bozeman,MT_Bozeman,AH,AH,AK,NA
+24N13334,Genoscape_rmrel_rm6pop,Bozeman,West_rmrel,259137636,Theresa Burg,2018-06-06,USA,MT,Bozeman,Bozeman,45.48612,-110.97139,MT_west,MT_Bozeman,MT_Bozeman,AH,AH,AK,NA
+24N13335,Genoscape_rmrel_rm6pop,Bozeman,West_rmrel,259137638,Theresa Burg,2018-06-07,USA,MT,Bozeman,Bozeman,45.59178,-111.02596,MT_west,MT_Bozeman,MT_Bozeman,AH,AH,AK,NA
+24N13341,Genoscape_rmrel_rm6pop,RedLodge,West_rmrel,259137652,Theresa Burg,2018-06-11,USA,MT,Red Lodge,RedLodge,45.15082,-109.34298,MT_contact,MT_RedLodge,MT_RedLodge,AF,AF,AI,NA
+24N13343,Genoscape_rmrel_rm6pop,RedLodge,West_rmrel,259137654,Theresa Burg,2018-06-11,USA,MT,Red Lodge,RedLodge,45.16291,-109.3931,MT_contact,MT_RedLodge,MT_RedLodge,AF,AF,AI,NA
+24N13346,Genoscape_rmrel_rm6pop,RedLodge,West_rmrel,259137657,Theresa Burg,2018-06-12,USA,MT,Red Lodge,RedLodge,45.1551,-109.36958,MT_contact,MT_RedLodge,MT_RedLodge,AF,AF,AI,NA
+24N13349,Genoscape_rmrel_rm6pop,RedLodge,West_rmrel,259137661,Theresa Burg,2018-06-13,USA,MT,Red Lodge,RedLodge,45.17201,-109.30842,MT_contact,MT_RedLodge,MT_RedLodge,AF,AF,AI,NA
+24N13354,Genoscape_rmrel_rm6pop,RedLodge,West_rmrel,259137667,Theresa Burg,2018-06-14,USA,MT,Red Lodge,RedLodge,45.15548,-109.37718,MT_contact,MT_RedLodge,MT_RedLodge,AF,AF,AI,NA
+24N13361,Genoscape_rmrel_rm6pop,Jasper,West_rmrel,271078241,Theresa Burg,2016-06-02,Canada,ALB,Jasper,Jasper,52.9107778,-118.09311,Alberta_west,ALB_Jasper,ALB_Jasper,C,E,E,NA
+24N13363,Genoscape_rmrel_rm6pop,Mackenzie,West_rmrel,271078248,Theresa Burg,2016-05-25,Canada,BC,Mackenzie,Mackenzie,55.3196667,-123.14658,British Columbia_west,BC_west,BC_Mackenzie,B,D,D,NA
+24N13365,Genoscape_rmrel_rm6pop,Mackenzie,West_rmrel,271078259,Theresa Burg,2016-05-28,Canada,BC,Mackenzie,Mackenzie,55.3835278,-123.20303,British Columbia_west,BC_west,BC_Mackenzie,B,D,D,NA
+24N13366,Genoscape_rmrel_rm6pop,Mackenzie,West_rmrel,271078263,Theresa Burg,2016-05-29,Canada,BC,Mackenzie,Mackenzie,55.3835278,-123.20303,British Columbia_west,BC_west,BC_Mackenzie,B,D,D,NA
+24N13368,Genoscape_rmrel_rm6pop,Jasper,West_rmrel,271078272,Theresa Burg,2016-06-04,Canada,ALB,Jasper,Jasper,52.91325,-118.09506,Alberta_west,ALB_Jasper,ALB_Jasper,C,E,E,NA
+24N13369,Genoscape_rmrel_rm6pop,Jasper,West_rmrel,271078274,Theresa Burg,2016-06-04,Canada,ALB,Jasper,Jasper,52.91325,-118.09506,Alberta_west,ALB_Jasper,ALB_Jasper,C,E,E,NA
+24N13370,Genoscape_rmrel_rm6pop,Jasper,West_rmrel,271078277,Theresa Burg,2016-06-07,Canada,ALB,Jasper,Jasper,52.6657778,-117.95675,Alberta_west,ALB_Jasper,ALB_Jasper,C,E,E,NA
+24N13371,Genoscape_rmrel_rm6pop,Manning,West_rmrel,271078281,Theresa Burg,2016-06-15,Canada,BC,Manning Park,ManningPark,49.0600556,-120.838,British Columbia_west,BC_west,BC_ManningPark,K,M,N,NA
+24N13374,Genoscape_rmrel_rm6pop,Manning,West_rmrel,271078289,Theresa Burg,2016-06-18,Canada,BC,Manning Park,ManningPark,49.1112222,-120.84567,British Columbia_west,BC_west,BC_ManningPark,K,M,N,NA
+24N13375,Genoscape_rmrel_rm6pop,Manning,West_rmrel,271078291,Theresa Burg,2016-06-19,Canada,BC,Manning Park,ManningPark,49.12875,-120.62672,British Columbia_west,BC_west,BC_ManningPark,K,M,N,NA
+24N13379,Genoscape_rmrel_rm6pop,Revelstoke,West_rmrel,271078550,Theresa Burg,2015-05-21,Canada,BC,Revelstoke,Revelstoke,51.052556,-118.219,British Columbia_contact,BC_Revelstoke,BC_Revelstoke,G,I,J,NA
+24N13380,Genoscape_rmrel_rm6pop,Revelstoke,West_rmrel,271078551,Theresa Burg,2015-05-22,Canada,BC,Revelstoke,Revelstoke,51.061333,-118.23336,British Columbia_contact,BC_Revelstoke,BC_Revelstoke,G,I,J,NA
+24N13389,Genoscape_rmrel_rm6pop,Canmore_Banff,West_rmrel,271078576,Theresa Burg,2015-06-11,Canada,ALB,Banff,Canmore_Banff,51.178153,-115.58727,Alberta_west,ALB_Canmore_Banff,ALB_Canmore_Banff,F,H,I,NA
+24N13392,Genoscape_rmrel_rm6pop,Castle,West_rmrel,271078591,Theresa Burg,2015-06-25,Canada,ALB,Beavermines,Castle,49.37075,-114.32447,Alberta_west,ALB_Castle,ALB_Castle,E,G,H,NA
+24N13393,Genoscape_rmrel_rm6pop,Castle,West_rmrel,271078593,Theresa Burg,2015-06-26,Canada,ALB,Beavermines,Castle,49.397361,-114.33222,Alberta_west,ALB_Castle,ALB_Castle,E,G,H,NA
+24N13396,Genoscape_rmrel_rm6pop,BlackHills,West_rmrel,DMNS 45238,Garth Spellman,2012-05-22,USA,SD,Spearfish,BlackHills,44.4833,-103.9333,SD,SD,SD,AE,AE,AH,NA
+24N13397,Genoscape_rmrel_rm6pop,BlackHills,West_rmrel,DMNS 45240,Garth Spellman,2012-05-22,USA,SD,Spearfish,BlackHills,44.4833,-103.9333,SD,SD,SD,AE,AE,AH,NA
+24N13398,Genoscape_rmrel_rm6pop,Lewistown,West_rmrel,DMNS 45331,Garth Spellman,2009-06-16,USA,MT,Lewistown,Lewistown,46.7106667,-109.33323,MT_west,MT_Lewistown,MT_Lewistown,AG,AG,AJ,NA
+24N13399,Genoscape_rmrel_rm6pop,Lewistown,West_rmrel,DMNS 45332,Garth Spellman,2009-06-16,USA,MT,Lewistown,Lewistown,46.7106667,-109.33323,MT_west,MT_Lewistown,MT_Lewistown,AG,AG,AJ,NA
+24N13400,Genoscape_rmrel_rm6pop,Lewistown,West_rmrel,DMNS 45334,Garth Spellman,2009-06-16,USA,MT,Lewistown,Lewistown,46.7106667,-109.33323,MT_west,MT_Lewistown,MT_Lewistown,AG,AG,AJ,NA
+24N13401,Genoscape_rmrel_rm6pop,Lewistown,West_rmrel,DMNS 45335,Garth Spellman,2009-06-16,USA,MT,Lewistown,Lewistown,46.7106667,-109.33323,MT_west,MT_Lewistown,MT_Lewistown,AG,AG,AJ,NA
+24N13402,Genoscape_rmrel_rm6pop,Lewistown,West_rmrel,DMNS 45337,Garth Spellman,2009-06-16,USA,MT,Lewistown,Lewistown,46.7106667,-109.33323,MT_west,MT_Lewistown,MT_Lewistown,AG,AG,AJ,NA
+24N13403,Genoscape_rmrel_rm6pop,Augusta_Choteau,West_rmrel,DMNS 45392,Garth Spellman,2009-06-20,USA,MT,Augusta,Augusta_Choteau,47.6075667,-112.74223,MT_contact,MT_Augusta_Choteau,MT_Augusta_Choteau,AP,AP,AS,NA
+24N13406,Genoscape_rmrel_rm6pop,Augusta_Choteau,West_rmrel,DMNS 45395,Garth Spellman,2009-06-20,USA,MT,Augusta,Augusta_Choteau,47.6075667,-112.74223,MT_contact,MT_Augusta_Choteau,MT_Augusta_Choteau,AP,AP,AS,NA
+24N13408,Genoscape_rmrel_rm6pop,Augusta_Choteau,West_rmrel,DMNS 45397,Garth Spellman,2009-06-20,USA,MT,Augusta,Augusta_Choteau,47.6075667,-112.74223,MT_contact,MT_Augusta_Choteau,MT_Augusta_Choteau,AP,AP,AS,NA
+24N13410,Genoscape_rmrel_rm6pop,Augusta_Choteau,West_rmrel,DMNS 45401,Garth Spellman,2009-06-21,USA,MT,Choteau,Augusta_Choteau,48.0092167,-112.70793,MT_contact,MT_Augusta_Choteau,MT_Augusta_Choteau,AP,AP,AS,NA
+24N13412,Genoscape_rmrel_rm6pop,Augusta_Choteau,West_rmrel,DMNS 45414,Garth Spellman,2009-06-23,USA,MT,Choteau,Augusta_Choteau,47.90035,-113.52527,MT_contact,MT_Augusta_Choteau,MT_Augusta_Choteau,AP,AP,AS,NA
+24N13414,Genoscape_rmrel_rm6pop,FerrisMountains,West_rmrel,DMNS 46021,Garth Spellman,2016-06-15,USA,WY,Ferris Mountains,FerrisMountains,42.2878333,-107.31558,WY,WY,WY,AD,AD,AG,NA
+24N13415,Genoscape_rmrel_rm6pop,FerrisMountains,West_rmrel,DMNS 46026,Garth Spellman,2016-06-15,USA,WY,Ferris Mountains,FerrisMountains,42.2897,-107.3145,WY,WY,WY,AD,AD,AG,NA
+24N13416,Genoscape_rmrel_rm6pop,FerrisMountains,West_rmrel,DMNS 46028,Garth Spellman,2016-06-15,USA,WY,Ferris Mountains,FerrisMountains,42.2914167,-107.31652,WY,WY,WY,AD,AD,AG,NA
+24N13417,Genoscape_rmrel_rm6pop,FerrisMountains,West_rmrel,DMNS 46029,Garth Spellman,2016-06-15,USA,WY,Ferris Mountains,FerrisMountains,42.2922667,-107.31658,WY,WY,WY,AD,AD,AG,NA
+24N13422,Genoscape_rmrel_rm6pop,LaramieMtns,West_rmrel,DMNS 56210,Garth Spellman,2021-06-08,USA,WY,Glenrock,LaramieMtns,42.743998,-105.78552,WY,WY,WY,AC,AC,AF,NA
+24N13423,Genoscape_rmrel_rm6pop,LaramieMtns,West_rmrel,DMNS 56211,Garth Spellman,2021-06-08,USA,WY,Glenrock,LaramieMtns,42.743998,-105.78552,WY,WY,WY,AC,AC,AF,NA
+24N13427,Genoscape_rmrel_rm6pop,BlackHills,West_rmrel,DMNS 56222,Garth Spellman,2021-06-10,USA,SD,Newcastle,BlackHills,44.017692,-103.9887,SD,SD,SD,AE,AE,AH,NA
+24N13433,Genoscape_rmrel_rm6pop,BlackHills,West_rmrel,DMNS 56233,Garth Spellman,2021-06-10,USA,SD,Spearfish,BlackHills,44.42292,-103.93212,SD,SD,SD,AE,AE,AH,NA
+24N13434,Genoscape_rmrel_rm6pop,LaramieMtns,West_rmrel,DMNS 56239,Garth Spellman,2021-06-11,USA,WY,Esterbrook,LaramieMtns,42.428627,-105.34472,WY,WY,WY,AC,AC,AF,NA
+24N13435,Genoscape_rmrel_rm6pop,LaramieMtns,West_rmrel,DMNS 56240,Garth Spellman,2021-06-11,USA,WY,Esterbrook,LaramieMtns,42.428627,-105.34472,WY,WY,WY,AC,AC,AF,NA
+24N13441,Genoscape_rmrel_rm6pop,BlackHills,West_rmrel,DMNS 57325,Garth Spellman,2012-06-04,USA,SD,Spearfish,BlackHills,43.800252,-104.03709,SD,SD,SD,AE,AE,AH,NA
+24N13442,Genoscape_rmrel_rm6pop,SwanHills,West_rmrel,RAM Z06.3.13,Jocelyn Hudon,2006-06-02,Canada,ALB,Swan Hills,SwanHills,55.08374,-115.58774,Alberta_west,ALB_SwanHills,ALB_SwanHills,D,F,F,NA
+24N13443,Genoscape_rmrel_rm6pop,SwanHills,West_rmrel,RAM Z06.3.15,Jocelyn Hudon,2006-06-02,Canada,ALB,Swan Hills,SwanHills,54.97453,-115.39461,Alberta_west,ALB_SwanHills,ALB_SwanHills,D,F,F,NA
+24N13444,Genoscape_rmrel_rm6pop,SwanHills,West_rmrel,RAM Z06.3.5,Jocelyn Hudon,2006-06-01,Canada,ALB,Swan Hills,SwanHills,55.04133,-115.03633,Alberta_west,ALB_SwanHills,ALB_SwanHills,D,F,F,NA
+24N13445,Genoscape_rmrel_rm6pop,SwanHills,West_rmrel,RAM Z06.3.6,Jocelyn Hudon,2006-06-01,Canada,ALB,Swan Hills,SwanHills,54.98903,-115.57741,Alberta_west,ALB_SwanHills,ALB_SwanHills,D,F,F,NA
+24N13448,Genoscape_rmrel_rm6pop,Barrhead,West_rmrel,RAM Z06.6.14,Jocelyn Hudon,2006-06-15,Canada,ALB,PeanutLake (S of Barrhead),PeanutLake,54.15924,-114.926,Alberta_cotact,ALB_PeanutLake,ALB_PeanutLake,AV,AV1,AX,NA
+24N13451,Genoscape_rmrel_rm6pop,RedDeer,East_rmrel,RAM Z06.6.19,Jocelyn Hudon,2006-06-26,Canada,ALB,Red Deer,RedDeer,52.14216,-113.49997,Alberta_east,ALB_RedDeer,ALB_RedDeer,AW,AW,AY,NA
+24N13452,Genoscape_rmrel_rm6pop,RedDeer,East_rmrel,RAM Z06.6.20,Jocelyn Hudon,2006-06-29,Canada,ALB,Red Deer,RedDeer,52.14194,-113.48956,Alberta_east,ALB_RedDeer,ALB_RedDeer,AW,AW,AY,NA
+24N13453,Genoscape_rmrel_rm6pop,SwanHills,West_rmrel,RAM Z07.8.04,Jocelyn Hudon,2007-05-23,Canada,ALB,Swan Hills,SwanHills,55.02597,-115.48326,Alberta_west,ALB_SwanHills,ALB_SwanHills,D,F,F,NA
+24N13454,Genoscape_rmrel_rm6pop,RedDeer,East_rmrel,RAM Z07.8.11,Jocelyn Hudon,2007-06-01,Canada,ALB,Red Deer,RedDeer,52.143,-113.49927,Alberta_east,ALB_RedDeer,ALB_RedDeer,AW,AW,AY,NA
+24N13455,Genoscape_rmrel_rm6pop,RedDeer,East_rmrel,RAM Z07.8.12,Jocelyn Hudon,2007-06-01,Canada,ALB,Red Deer,RedDeer,52.14653,-113.49909,Alberta_east,ALB_RedDeer,ALB_RedDeer,AW,AW,AY,NA
+24N13465,Genoscape_rmrel_rm6pop,Barrhead,East_rmrel,RAM Z07.8.25,Jocelyn Hudon,2007-06-07,Canada,ALB,PeanutLake (S of Barrhead),PeanutLake,54.01942,-114.32993,Alberta_cotact,ALB_PeanutLake,ALB_PeanutLake,AV,AV1,AX,NA
+24N13467,Genoscape_rmrel_rm6pop,Barrhead,West_rmrel,RAM Z07.8.28,Jocelyn Hudon,2007-06-13,Canada,ALB,PeanutLake (S of Barrhead),PeanutLake,54.22344,-114.81489,Alberta_cotact,ALB_PeanutLake,ALB_PeanutLake,AV,AV1,AX,NA
+24N13470,Genoscape_rmrel_rm6pop,Barrhead,East_rmrel,RAM Z07.8.32,Jocelyn Hudon,2007-06-19,Canada,ALB,Barrhead,Barrhead,54.2395,-114.36983,Alberta_cotact,ALB_Barrhead,ALB_Barrhead,AV,AV2,AX,NA
+24N13475,Genoscape_rmrel_rm6pop,Barrhead,West_rmrel,RAM Z07.8.37,Jocelyn Hudon,2007-06-26,Canada,ALB,Barrhead,Barrhead,54.1329,-114.22677,Alberta_cotact,ALB_Barrhead,ALB_Barrhead,AV,AV2,AX,NA
+24N13483,Genoscape_rmrel_rm6pop,AlderFlats,West_rmrel,RAM Z99.11.4,Jocelyn Hudon,1999-06-15,Canada,ALB,Alder Flats,AlderFlats,52.92,-115.12,Alberta_west,ALB_AlderFlats,ALB_AlderFlats,AR,AR,G,NA
+24N13484,Genoscape_rmrel_rm6pop,AlderFlats,West_rmrel,RAM Z99.11.5,Jocelyn Hudon,1999-06-15,Canada,ALB,Alder Flats,AlderFlats,52.909167,-115.09639,Alberta_west,ALB_AlderFlats,ALB_AlderFlats,AR,AR,G,NA
+24N13485,Genoscape_rmrel_rm6pop,AlderFlats,West_rmrel,RAM Z99.11.6,Jocelyn Hudon,1999-06-15,Canada,ALB,Alder Flats,AlderFlats,52.906944,-115.09,Alberta_west,ALB_AlderFlats,ALB_AlderFlats,AR,AR,G,NA
+24N13486,Genoscape_rmrel_rm6pop,AlderFlats,West_rmrel,RAM Z99.11.7,Jocelyn Hudon,1999-06-15,Canada,ALB,Alder Flats,AlderFlats,52.906944,-115.10694,Alberta_west,ALB_AlderFlats,ALB_AlderFlats,AR,AR,G,NA
+24N13490,Genoscape_rmrel_rm6pop,Nevada,West_rmrel,UWBM 100362,Sharon Birks,2006-05-24,USA,NV,Lander,NV,39.433,-117.05,NV,Southwest,Southwest,Z,Z,AB,NA
+24N13491,Genoscape_rmrel_rm6pop,Nevada,West_rmrel,UWBM 100418,Sharon Birks,2006-05-24,USA,NV,Lander,NV,39.433,-117.05,NV,Southwest,Southwest,Z,Z,AB,NA
+24N13492,Genoscape_rmrel_rm6pop,Larimer,West_rmrel,UWBM 107174,Sharon Birks,2005-06-21,USA,CO,Larimer,Larimer,40.733333,-105.6,CO_west,CO_west,CO_Larimer,AB,AB,AE,NA
+24N13493,Genoscape_rmrel_rm6pop,Larimer,West_rmrel,UWBM 108755,Sharon Birks,2005-06-22,USA,CO,Larimer,Larimer,40.783333,-105.91667,CO_west,CO_west,CO_Larimer,AB,AB,AE,NA
+24N13494,Genoscape_rmrel_rm6pop,VancouverIsland,West_rmrel,UWBM 110836,Sharon Birks,2003-06-26,Canada,BC,Vancouver Island,VancouverIsland,48.666667,-124.5,British Columbia_west,BC_west,BC_VancouverIsland,J,L,M,NA
+24N13495,Genoscape_rmrel_rm6pop,VancouverIsland,West_rmrel,UWBM 110837,Sharon Birks,2003-06-28,Canada,BC,Vancouver Island,VancouverIsland,49.5,-125,British Columbia_west,BC_west,BC_VancouverIsland,J,L,M,NA
+24N13496,Genoscape_rmrel_rm6pop,VancouverIsland,West_rmrel,UWBM 110838,Sharon Birks,2003-06-28,Canada,BC,Vancouver Island,VancouverIsland,49.5,-125,British Columbia_west,BC_west,BC_VancouverIsland,J,L,M,NA
+24N13497,Genoscape_rmrel_rm6pop,VancouverIsland,West_rmrel,UWBM 110839,Sharon Birks,2003-06-27,Canada,BC,Vancouver Island,VancouverIsland,48.666667,-124.5,British Columbia_west,BC_west,BC_VancouverIsland,J,L,M,NA
+24N13498,Genoscape_rmrel_rm6pop,NM,West_rmrel,UWBM 111656,Sharon Birks,2004-06-17,USA,NM,Lincoln County,NM,33.503,-105.78,NM,Southwest,Southwest,X,X,Z,NA
+24N13499,Genoscape_rmrel_rm6pop,NM,West_rmrel,UWBM 111668,Sharon Birks,2004-06-18,USA,NM,Lincoln County,NM,33.503,-105.78,NM,Southwest,Southwest,X,X,Z,NA
+24N13500,Genoscape_rmrel_rm6pop,NM,West_rmrel,UWBM 111670,Sharon Birks,2004-06-18,USA,NM,Lincoln County,NM,33.503,-105.78,NM,Southwest,Southwest,X,X,Z,NA
+24N13507,Genoscape_rmrel_rm6pop,Larimer,West_rmrel,UWBM 112204,Sharon Birks,2005-06-21,USA,CO,Larimer,Larimer,40.733333,-105.6,CO_west,CO_west,CO_Larimer,AB,AB,AE,NA
+24N13508,Genoscape_rmrel_rm6pop,Larimer,West_rmrel,UWBM 112205,Sharon Birks,2005-06-21,USA,CO,Larimer,Larimer,40.733333,-105.6,CO_west,CO_west,CO_Larimer,AB,AB,AE,NA
+24N13509,Genoscape_rmrel_rm6pop,Larimer,West_rmrel,UWBM 112208,Sharon Birks,2005-06-21,USA,CO,Larimer,Larimer,40.733333,-105.6,CO_west,CO_west,CO_Larimer,AB,AB,AE,NA
+24N13510,Genoscape_rmrel_rm6pop,CoCA,West_rmrel,UWBM 112790,Sharon Birks,2006-06-19,USA,CA,Covelo (Mendocino County),CoCA,39.817,-122.993,CoCA,CA,CA,Q,S,U,NA
+24N13511,Genoscape_rmrel_rm6pop,CoCA,West_rmrel,UWBM 112792,Sharon Birks,2006-06-19,USA,CA,Covelo (Mendocino County),CoCA,39.817,-122.993,CoCA,CA,CA,Q,S,U,NA
+24N13516,Genoscape_rmrel_rm6pop,CoCA,West_rmrel,UWBM 113895,Sharon Birks,2006-06-19,USA,CA,Covelo (Mendocino County),CoCA,39.817,-122.993,CoCA,CA,CA,Q,S,U,NA
+24N13517,Genoscape_rmrel_rm6pop,NorthernMX,West_rmrel,UWBM 113983,Sharon Birks,2009-05-19,Mexico,Durango,Durango,Durango,24.087,-104.933,Durango,Southwest,Southwest,U,U,W,NA
+24N13518,Genoscape_rmrel_rm6pop,NorthernMX,West_rmrel,UWBM 113985,Sharon Birks,2009-05-19,Mexico,Durango,Durango,Durango,24.087,-104.933,Durango,Southwest,Southwest,U,U,W,NA
+24N13520,Genoscape_rmrel_rm6pop,NorthernMX,West_rmrel,UWBM 114084,Sharon Birks,2009-05-24,Mexico,Chihuahua,Sierra Madre Occidental,Chihuahua,29.651,-108.173,Chihuahua,Southwest,Southwest,W,W,Y,NA
+24N13521,Genoscape_rmrel_rm6pop,NorthernMX,West_rmrel,UWBM 114085,Sharon Birks,2009-05-24,Mexico,Chihuahua,Sierra Madre Occidental,Chihuahua,29.651,-108.173,Chihuahua,Southwest,Southwest,W,W,Y,NA
+24N13522,Genoscape_rmrel_rm6pop,NM,West_rmrel,UWBM 114924,Sharon Birks,2004-06-18,USA,NM,Lincoln County,NM,33.503,-105.78,NM,Southwest,Southwest,X,X,Z,NA
+24N13523,Genoscape_rmrel_rm6pop,Nevada,West_rmrel,UWBM 116330,Sharon Birks,2012-05-30,USA,NV,Lander,NV,39.258,-117.158,NV,Southwest,Southwest,Z,Z,AB,NA
+24N13525,Genoscape_rmrel_rm6pop,Nevada,West_rmrel,UWBM 116334,Sharon Birks,2012-05-30,USA,NV,Lander,NV,39.258,-117.158,NV,Southwest,Southwest,Z,Z,AB,NA
+24N13530,Genoscape_rmrel_rm6pop,NIdaho,West_rmrel,UWBM 121914,Sharon Birks,2016-06-26,USA,ID,Wallace (Shoshone County),Wallace,47.359,-115.716,ID_Northern,ID_Northern,ID_Northern,AN,AN,AQ,NA
+24N13531,Genoscape_rmrel_rm6pop,NIdaho,West_rmrel,UWBM 121915,Sharon Birks,2015-06-27,USA,ID,Wallace (Shoshone County),Wallace,47.359,-115.716,ID_Northern,ID_Northern,ID_Northern,AN,AN,AQ,NA
+24N13532,Genoscape_rmrel_rm6pop,NIdaho,West_rmrel,UWBM 121998,Sharon Birks,2015-06-27,USA,ID,Wallace (Shoshone County),Wallace,47.359,-115.716,ID_Northern,ID_Northern,ID_Northern,AN,AN,AQ,NA
+24N13533,Genoscape_rmrel_rm6pop,NIdaho,West_rmrel,UWBM 122015,Sharon Birks,2015-06-26,USA,ID,Wallace (Shoshone County),Wallace,47.359,-115.716,ID_Northern,ID_Northern,ID_Northern,AN,AN,AQ,NA
+24N13534,Genoscape_rmrel_rm6pop,NIdaho,West_rmrel,UWBM 122016,Sharon Birks,2015-06-26,USA,ID,Wallace (Shoshone County),Wallace,47.359,-115.716,ID_Northern,ID_Northern,ID_Northern,AN,AN,AQ,NA
+24N13535,Genoscape_rmrel_rm6pop,Cascade,West_rmrel,UWBM 122052,Sharon Birks,2015-07-08,USA,ID,Cascade (Valley County),Cascade,44.582,-115.536,ID_contact,ID_Cascade,ID_Cascade,AM,AM,AP,NA
+24N13536,Genoscape_rmrel_rm6pop,Cascade,West_rmrel,UWBM 122085,Sharon Birks,2015-07-08,USA,ID,Cascade (Valley County),Cascade,44.582,-115.536,ID_contact,ID_Cascade,ID_Cascade,AM,AM,AP,NA
+24N13537,Genoscape_rmrel_rm6pop,Cascade,West_rmrel,UWBM 122088,Sharon Birks,2015-07-08,USA,ID,Cascade (Valley County),Cascade,44.582,-115.536,ID_contact,ID_Cascade,ID_Cascade,AM,AM,AP,NA
+24N13538,Genoscape_rmrel_rm6pop,NorthernMX,West_rmrel,UWBM 81350,Sharon Birks,2005-07-27,Mexico,Sinaloa,El Fuerte,Sinaloa,26.303,-108.698,Sinaloa,Southwest,Southwest,V,V,X,NA
+24N13539,Genoscape_rmrel_rm6pop,Baja,Resident,UWBM 81390,Sharon Birks,2005-08-06,Mexico,Baja California Sur,La Venta,Baja,23.753,-109.975,Baja California Sur,Baja,Baja,S,A,A,NA
+24N13540,Genoscape_rmrel_rm6pop,Guerrero,Resident,UWBM 82883,Sharon Birks,2006-05-12,Mexico,Guerrero,Chilpancingo,Guerrero,17.567,-99.633,Guerrero,Guerrero,Guerrero,T,B,B,NA
+24N13541,Genoscape_rmrel_rm6pop,Guerrero,Resident,UWBM 82890,Sharon Birks,2006-05-13,Mexico,Guerrero,Chilpancingo,Guerrero,17.567,-99.633,Guerrero,Guerrero,Guerrero,T,B,B,NA
+24N13542,Genoscape_rmrel_rm6pop,Guerrero,Resident,UWBM 82892,Sharon Birks,2006-05-13,Mexico,Guerrero,Chilpancingo,Guerrero,17.567,-99.633,Guerrero,Guerrero,Guerrero,T,B,B,NA
+24N13543,Genoscape_rmrel_rm6pop,Guerrero,Resident,UWBM 82899,Sharon Birks,2006-05-14,Mexico,Guerrero,Chilpancingo,Guerrero,17.567,-99.633,Guerrero,Guerrero,Guerrero,T,B,B,NA
+24N13544,Genoscape_rmrel_rm6pop,Guerrero,Resident,UWBM 82902,Sharon Birks,2006-05-14,Mexico,Guerrero,Chilpancingo,Guerrero,17.567,-99.633,Guerrero,Guerrero,Guerrero,T,B,B,NA
+24N13546,Genoscape_rmrel_rm6pop,NWBC,West_rmrel,WAVI 1,Theresa Burg,2009-07-06,Canada,BC,Dease Lake,DeaseLake,58.5069444,-130.02306,British Columbia_west,BC_west,NWBC,A,C,C,NA
+24N13547,Genoscape_rmrel_rm6pop,CoOR,West_rmrel,WAVI 1,Theresa Burg,2009-05-22,USA,OR,Depoe Bay,CoOR,44.8387333,-124.04813,CoOR,OR,OR,P,R,S,NA
+24N13548,Genoscape_rmrel_rm6pop,Cascade,West_rmrel,WAVI 1,Theresa Burg,2012-06-16,USA,ID,McCall,Cascade,44.9411389,-116.08047,ID_contact,ID_Cascade,ID_Cascade,AM,AM,AP,NA
+24N13550,Genoscape_rmrel_rm6pop,Revelstoke,West_rmrel,WAVI 1,Theresa Burg,2008-05-21,Canada,BC,Revelstoke,Revelstoke,51.06625,-118.19394,British Columbia_contact,BC_Revelstoke,BC_Revelstoke,G,I,J,NA
+24N13554,Genoscape_rmrel_rm6pop,Revelstoke,West_rmrel,WAVI 13,Theresa Burg,2010-06-06,Canada,BC,Revelstoke,Revelstoke,51.0222778,-118.23347,British Columbia_contact,BC_Revelstoke,BC_Revelstoke,G,I,J,NA
+24N13559,Genoscape_rmrel_rm6pop,NWBC,West_rmrel,WAVI 2,Theresa Burg,2009-07-06,Canada,BC,Dease Lake,DeaseLake,58.5069444,-130.02306,British Columbia_west,BC_west,NWBC,A,C,C,NA
+24N13560,Genoscape_rmrel_rm6pop,CoOR,West_rmrel,WAVI 2,Theresa Burg,2009-05-22,USA,OR,Depoe Bay,CoOR,44.8387333,-124.04813,CoOR,OR,OR,P,R,S,NA
+24N13562,Genoscape_rmrel_rm6pop,Helena,West_rmrel,WAVI 2,Theresa Burg,2008-07-22,USA,MT,Helena,Helena,46.56215,-112.06525,MT_west,MT_Helena,MT_Helena,AK,AK,AN,NA
+24N13565,Genoscape_rmrel_rm6pop,Revelstoke,West_rmrel,WAVI 2,Theresa Burg,2008-05-21,Canada,BC,Revelstoke,Revelstoke,51.06625,-118.19394,British Columbia_contact,BC_Revelstoke,BC_Revelstoke,G,I,J,NA
+24N13568,Genoscape_rmrel_rm6pop,NWBC,West_rmrel,WAVI 3,Theresa Burg,2009-07-08,Canada,BC,Dease Lake,DeaseLake,58.5069444,-130.02306,British Columbia_west,BC_west,NWBC,A,C,C,NA
+24N13569,Genoscape_rmrel_rm6pop,Helena,West_rmrel,WAVI 3,Theresa Burg,2008-07-22,USA,MT,Helena,Helena,46.5218167,-112.118,MT_west,MT_Helena,MT_Helena,AK,AK,AN,NA
+24N13575,Genoscape_rmrel_rm6pop,Helena,West_rmrel,WAVI 5,Theresa Burg,2008-07-22,USA,MT,Helena,Helena,46.5218167,-112.118,MT_west,MT_Helena,MT_Helena,AK,AK,AN,NA
+24N13578,Genoscape_rmrel_rm6pop,NWBC,West_rmrel,WAVI 5,Theresa Burg,2009-07-11,Canada,BC,Telegraph Creek,DeaseLake,57.9126111,-131.20956,British Columbia_west,BC_west,NWBC,A,C,C,NA
+24N13579,Genoscape_rmrel_rm6pop,Helena,West_rmrel,WAVI 6,Theresa Burg,2008-07-23,USA,MT,Helena,Helena,46.7,-112.095,MT_west,MT_Helena,MT_Helena,AK,AK,AN,NA
+24N13581,Genoscape_rmrel_rm6pop,NWBC,West_rmrel,WAVI 6,Theresa Burg,2009-07-12,Canada,BC,Telegraph Creek,DeaseLake,58.4005556,-131.21222,British Columbia_west,BC_west,NWBC,A,C,C,NA
+25N00006,Genoscape_rmrel_rm6pop,Canmore_Banff,West_rmrel,222185085,Theresa Burg,2018-06-25,Canada,ALB,Canmore,Canmore_Banff,51.07993,-115.37416,Alberta_west,ALB_Canmore_Banff,ALB_Canmore_Banff,F,H,I,NA
+25N00007,Genoscape_rmrel_rm6pop,Kamloops,West_rmrel,222185100,Theresa Burg,2019-05-29,Canada,BC,Kamloops,Kamloops,50.5500456,-120.44009,British Columbia_west,BC_west,BC_Kamloops,H,J,K,NA
+25N00019,Genoscape_rmrel_rm6pop,Castle,West_rmrel,271078586,Theresa Burg,2015-06-22,Canada,ALB,Beavermines,Castle,49.331306,-114.41847,Alberta_west,ALB_Castle,ALB_Castle,E,G,H,NA
+25N00020,Genoscape_rmrel_rm6pop,Castle,West_rmrel,271078587,Theresa Burg,2015-06-23,Canada,ALB,Beavermines,Castle,49.45925,-114.37211,Alberta_west,ALB_Castle,ALB_Castle,E,G,H,NA
+25N00021,Genoscape_rmrel_rm6pop,Pennsylvania,East_rmrel,301030221,Annie Lindsay,2024-06-10,USA,PA,Rector,PA,40.16509,-79.26743,PA,PA,PA,BD,BD,BE,NA
+01N5213,Genoscape_rmrel_rm6pop,Masterson,West_rmrel,221005886,NA,2001-07-19,USA,CA,Masterson,Masterson,40.956667,-123.48528,Masterson,CA,CA,NA,S1,T,NA
+01N5215,Genoscape_rmrel_rm6pop,Masterson,West_rmrel,221005900,NA,2001-07-19,USA,CA,Masterson,Masterson,40.956667,-123.48528,Masterson,CA,CA,NA,S1,T,NA
+01N5218,Genoscape_rmrel_rm6pop,Masterson,West_rmrel,221005813,NA,2001-07-10,USA,CA,Masterson,Masterson,40.956667,-123.48528,Masterson,CA,CA,NA,S1,T,NA
+24N11934,Genoscape_rmrel_rm6pop,Boulder,East_rmrel,288052636,Amanda Carpenter,2024-06-17,USA,CO,Boulder,Boulder,40.044914,-105.189808,CO_east,CO_Boulder,CO_Boulder,NA,AA,AC,NA
+24N11940,Genoscape_rmrel_rm6pop,FortCollins,East_rmrel,288052643,Amanda Carpenter,2024-06-19,USA,CO,Fort Collins,FortCollins,40.48457,-105.01682,CO_east,CO_FortCollins,CO_FortCollins,NA,AT,AD,NA
+24N11951,Genoscape_rmrel_rm6pop,FortCollins,East_rmrel,1,Amanda Carpenter,2024-06-19,USA,CO,Fort Collins,FortCollins,40.52991,-104.99886,CO_east,CO_FortCollins,CO_FortCollins,NA,AT,AD,NA
+24N13257,Genoscape_rmrel_rm6pop,CypressHills,West_rmrel,169193377,Theresa Burg,2019-06-10,Canada,ALB,Cypress Hills,CypressHills,49.6573104,-110.10212,Alberta_west,ALB_CypressHills,ALB_CypressHills,AS,AS,AU,NA
+24N13447,Genoscape_rmrel_rm6pop,Barrhead,East_rmrel,6.6130000000000004,Jocelyn Hudon,2006-06-14,Canada,ALB,3 km north of Peanut Lake,PeanutLake,54.03824,-114.33717,Alberta_cotact,ALB_Barrhead,ALB_PeanutLake,AV,AV1,AX,NA
+24N13469,Genoscape_rmrel_rm6pop,Barrhead,West_rmrel,7.83,Jocelyn Hudon,2007-06-14,Canada,ALB,3 km southeast of Clear Lake,Barrhead,54.22131,-114.31476,Alberta_cotact,ALB_Barrhead,ALB_Barrhead,AV,AV2,AX,NA
+24N13472,Genoscape_rmrel_rm6pop,Barrhead,East_rmrel,7.8339999999999996,Jocelyn Hudon,2007-06-20,Canada,ALB,Barrhead,Barrhead,54.95259,-114.17341,Alberta_cotact,ALB_Barrhead,ALB_Barrhead,AV,AV2,AX,NA
+24N13473,Genoscape_rmrel_rm6pop,Barrhead,West_rmrel,7.835,Jocelyn Hudon,2007-06-21,Canada,ALB,Barrhead,Barrhead,54.1813,-114.63219,Alberta_cotact,ALB_Barrhead,ALB_Barrhead,AV,AV2,AX,NA
+24N13476,Genoscape_rmrel_rm6pop,Barrhead,East_rmrel,7.8380000000000001,Jocelyn Hudon,2007-06-26,Canada,ALB,PeanutLake,PeanutLake,54.02109,-114.17553,Alberta_cotact,ALB_Barrhead,ALB_PeanutLake,AV,AV1,AX,NA
+25N00003,Genoscape_rmrel_rm6pop,MedicineHat,East_rmrel,169193387,Theresa Burg,2019-06-12,Canda,ALB,Medicine Hat,MedicineHat,50.0402676,-110.64907,Alberta_east,ALB_MedicineHat,ALB_MedicineHat,NA,AY,AV,NA
+25N00005,Genoscape_rmrel_rm6pop,WEdmonton,East_rmrel,209171914,Theresa Burg,2019-07-04,Canda,ALB,Spruce Grove (Edmonton),SpruceGrove,53.4131747,-113.79175,Alberta_east,ALB_SpruceGrove,ALB_SpruceGrove,AU,AU,AW,NA
+25N13594,Genoscape_rmrel_rm6pop,Boulder,West_rmrel,288052658,Amanda Carpenter,2025-06-12,USA,CO,Boulder,Boulder,40.0441653,-105.187143,CO_west,CO_Boulder,CO_Boulder,NA,AA,AC,NA
+25N13595,Genoscape_rmrel_rm6pop,Boulder,West_rmrel,288052659,Amanda Carpenter,2025-06-12,USA,CO,Boulder,Boulder,40.0441653,-105.187143,CO_west,CO_Boulder,CO_Boulder,NA,AA,AC,NA
