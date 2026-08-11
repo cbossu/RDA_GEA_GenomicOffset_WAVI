@@ -19,7 +19,8 @@ BiocManager::install("LEA")
 ```
 
 ```{r}
-R_MAX_VSIZE=300000000000
+R_MAX_VSIZE=350000000000 #himem cores, 400GB
+R_MAX_VSIZE=14000000000 #acompile, 4 cores
 library(vegan)
 library(adegenet)
 library(tidyverse)
@@ -30,6 +31,11 @@ library(openxlsx)
 library(ggplot2)
 library(reshape2)
 library(caret)
+library(sf)
+library(geosphere)
+library(adespatial)
+library(robust)
+library(qvalue)
 
 ```
 ## Environmental data. 
@@ -37,18 +43,22 @@ library(caret)
 Here you can specify a source for WorldClim or for CHELSA (we are moving to CHELSA).
 
 ```{r}
-source("src/generate_chelsa_rasterstack.R")
+source("~/Rproj_git/RDA_GEA_GenomicOffset_WAVI/src/generate_chelsa_rasterstack.R")
 ```
 
 ## Read in individual environmental data for 200 individuals. Just focus on West, as the East is too divergent and we are curious how SD, West and Southwest vary from each other
 
 ```{r}
-env<-read_delim("input/WAVI.env_pland_ndvi.200ind.West_SW_SD_Hyb.csv",delim=",") %>% rename(long=Long,lat=Lat)
-long_lat<-env %>% dplyr::select(long,lat)
+#env<-read_delim("input/WAVI.env_pland_ndvi.200ind.West_SW_SD_Hyb.csv",delim=",") %>% rename(long=Long,lat=Lat)
+
+# Environment for Western birds, not including any eastern birds of hybrid pops (no eastern birds in Boulder)
+env<-read_delim("input/WAVI.env_pland_treecc_ndvi.188ind.West_SW_SD_NoHyb.csv",delim=",") %>% rename(long=Long,lat=Lat)
+env_pop<-env %>% group_by(MapNum3) %>% summarise(meanLong=mean(long),meanLat=mean(lat))
+#long_lat<-env %>% dplyr::select(long,lat)
 waviSampled <- read_delim("input/WAVI249.GEA.sample_table.csv",delim=",") %>% rename(long=longitude,lat=latitude) %>% filter(Sample %in% env$Sample)
 
 
-pred <- env %>% dplyr::select(EvergreenForest:NDVI_mean) %>% dplyr::select(-HumanImpact_sum)
+pred <- env %>% dplyr::select(EvergreenForest:NDVI_mean) #%>% dplyr::select(-HumanImpact_sum)
 
 # Correlation matrix
 cor_matrix <- cor(pred, use = "pairwise.complete.obs", method = "pearson")
@@ -56,7 +66,7 @@ cor_matrix <- cor(pred, use = "pairwise.complete.obs", method = "pearson")
 # Melt for ggplot
 cor_melted <- melt(cor_matrix)
 
-pdf("output/Heatmap.Env_var.pdf")
+pdf("output/Heatmap.Env_var.inclTree_buff.noHyb.pdf")
 ggplot(cor_melted, aes(x = Var1, y = Var2, fill = value)) +
   geom_tile() +
   #geom_text(aes(label = round(value, 2)), size = 3) +
@@ -93,7 +103,7 @@ center_env <- attr(pred, 'scaled:center')
 ## Climatic table as data fram
 pred2<-as.data.frame(pred)
 row.names(pred2) <- c(waviSampled$Sample)
-
+rm(pred)
 ```
 
 ## Genomic data
@@ -107,8 +117,20 @@ cat *raw|cut -f 1,7- -d" "|sed 1d > wavi.200ind.imputed.lfmm.ind_col
 ### Added individual column in awk using paste function and saved as a .txt
 
 ```{r}
-gen.impall<-fread(file="wavi.200ind.imputed.lfmm.ind_col",sep=" ",row.names=1,header=F)
+plink_data <- read.PLINK("~/Desktop/WAVI/GEA/output_alpine/WAVI.pass-maf-0.05b.biallelic.rm_mono2.SNP.West_SW_SD_NoHyb.gtgl_impute.convert.raw")
+#plink_data <- read.PLINK("WAVI.pass-maf-0.05b.biallelic.rm_mono2.SNP.West_SW_SD_NoHyb.gtgl_impute.exclLD.5.raw")
+
+# convert genlight object to a genotype matrix
+gen.impall <- as.matrix(plink_data)
+colnames(gen.impall)
 dim(gen.impall) #confirm you have the correct # of inds
+rm(plink_data)
+# create a dataframe of BGP_IDs from genotype matrix
+#Sample <- data.frame(Sample = rownames(gen.impall))
+
+# sanity check: make sure the rows in geno_matrix match env table
+all(rownames(gen.impall) == env$Sample)
+rm(cor_matrix)
 ```
 
 ##PCA is RDA without environment.
@@ -116,98 +138,718 @@ dim(gen.impall) #confirm you have the correct # of inds
 We are going to use PCA as the putative population structure. You can also use MEMs if you want.
 ```{r}
 pca <- rda(gen.impall, scale=T)
+saveRDS(pca,"WAVI.188ind.pca.noHyb.RDS")
+pca<-readRDS("output/WAVI.188ind.pca.noHyb.RDS")
+
+# extract site scores for first 3 PCs
+pc_scores <- scores(pca, display = "sites", choices = 1:3)
+
+pdf("output/WAVI.188ind.pca.noHyb.screeplot.pdf")
+screeplot(pca, bstick = TRUE)  # broken-stick model helps decide how many axes are meaningful
+dev.off()
+```
+
+```{r}
+coords <- env %>% dplyr::select(Sample, long, lat)
+# convert to sf object
+coords_sf <- st_as_sf(coords, coords = c("long", "lat"), crs = 4326)
+
+# calculate geodesic distance matrix
+geo_dist <- geosphere::distm(as(coords_sf, "Spatial"), fun = geosphere::distHaversine)
+dist_mat <- as.dist(geo_dist)
+
+# generate moran's eigenvector maps (MEMs)
+mem_positive <- adespatial::dbmem(dist_mat, MEM.autocor = "positive")
+ 
+eigenvalues <- attr(mem_positive, "values")# eigenvalues of the retained MEMs
+
+plot(eigenvalues, type = "b", pch = 19,
+     xlab = "MEM axis", ylab = "Eigenvalue",
+     main = "MEM eigenvalue decay")
+abline(h = 0, col = "red", lty = 2)
+```
+```{r}
+ggsave("output/WAVI.188.noHyb.MEM_decay_plot.pdf")
+```
+
+```{r}
+# test MEMs against this reduced genetic summary
+mem_rda_test <- rda(pc_scores ~ ., data = as.data.frame(mem_positive))
+
+mem_r2step <- ordiR2step(
+  rda(pc_scores ~ 1, data = as.data.frame(mem_positive)),
+  scope = formula(mem_rda_test),
+  direction = "forward"
+)
+saveRDS(mem_r2step,"output/WAVI.ForwardSelection.MEM_positive_PCA.RDS")
+mem_r2step<-readRDS("output/WAVI.ForwardSel.MEM_positive_on_PCA.RDS")
+
+sig_mems <- attr(mem_r2step$terms, "term.labels")
+sig_mems
+sig_mems_top<-sig_mems[1:2]
+
+```
+
+```{r}
+# combine MEM scores with your coordinates
+mem_df <- as.data.frame(mem_positive)
+plot_data <- cbind(coords, mem_df)  # coords has long/lat from earlier
+
+plot_data_long <- plot_data %>%
+  pivot_longer(cols = all_of(sig_mems), names_to = "MEM", values_to = "score")
+
+# plot one MEM axis (e.g., MEM1) as a bubble map
+ggplot(plot_data_long, aes(x = long, y = lat, color = score)) +
+  geom_point(size = 2) +
+  scale_color_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  coord_fixed() +
+  facet_wrap(~ MEM) +
+  theme_minimal() +
+  labs(color = "MEM score")
+```
+
+```{r}
+ggsave("output/WAVI.188ind.exclLD.MEMs_plotted.sig_grid.pdf")
+```
+
+```{r}
+#add significant mems to environment
+env_data_mem <- cbind(pred2, as.data.frame(mem_positive)[, sig_mems_top, drop = FALSE])
+
+write.table(env_data_mem,"input/WAVI.env_pland_treecc_ndvi.Scaled.188ind.West_SW_SD_NoHyb.inclMEM_sel.csv",row.names=F,quote=F,sep=",")
+
+
 ```
 
 ## Forward variable selection of environmental variables
 
 ### First run a model with intercept only
 ```{r}
-wavi.mod0 <- rda(gen.impall  ~ 1, pred2) # Model with intercept only
-saveRDS(wavi.mod0,"output/WAVI.RDA_NullModel.RDS")
+#wavi.mod0 <- rda(gen.impall  ~ 1, pred2) # Model with intercept only
+#saveRDS(wavi.mod0,"output/WAVI.RDA_NullModel.noHyb.RDS")
 #wavi.mod0 <-readRDS("output/WAVI.RDA_NullModel.RDS")
 ```
 
 
 ### Then run a model iwth all explanatorry variables
 ```{r}
-wavi.rda.all <- rda(gen.impall ~ ., pred2) # Model with all explanatory variables
-saveRDS(wavi.rda.all,"output/WAVI.RDAresutls.169Indiv_impute.all_env_b4_varsel.chelsa.RDS")
-wavi.rda.all<-readRDS("output/CAWA.RDAresutls.169Indiv_impute.all_env_b4_varsel.wc2.1.RDS")
-
-
-#RsquareAdj(cawa.rda.all)
+#wavi.rda.all <- rda(gen.impall ~ ., pred2) # Model with all explanatory variables
+#saveRDS(wavi.rda.all,"WAVI.RDAresutls.188Indiv_impute.West_SW_SD_NoHyb.uncor_env_b4_varsel.chelsa_land.RDS")
+#wavi.rda.all<-readRDS("output/WAVI.RDAresutls.188Indiv_impute.West_SW_SD_NoHyb.uncor_env_b4_varsel.chelsa_land.RDS")
 ```
 
 ## Example of ordiR2step (always forward), 1000 peermutations and p-vaue in 0.01 (pinelodge)
-
-```{r}
+#Parallelizes the 499 permutations at each step# This takes too long, it's better to parallelize permutations within each step for forward selection and maybe we don't need as many permutations
+```
 mod<-ordiR2step(wavi.mod0,wavi.rda.all,direction="forward",R2permutations=499,Pin=0.01,R2scope=T)  
 saveRDS(mod,"output/ForwardSel.CAWA.Env.UncorrectedPop.RDS")
 #mod$anova
+```
+# Parallel permutations within each step- up to this took 350Gb of memory (himem node)
+```{r}
+fit <- ordiR2step(wavi.mod0, scope = wavi.rda.all,
+                  direction="forward",
+                  Pin = 0.01,
+                  R2scope = TRUE,
+                  permutations = how(nperm = 199),
+                  parallel = 4)
+saveRDS(fit,"output/ForwardSel.WAVI.188ind.West_SW_SD_NoHyb.uncor_env.UncorrectedPop.RDS")
 
-mod<-readRDS("output/ForwardSel.CAWA.Env.UncorrectedPop.RDS")
+#fit<-readRDS("output/ForwardSel.WAVI.188ind.West_SW_SD_NoHyb.uncor_env.UncorrectedPop.RDS")
+
+# convert the anova table to a data frame
+sel_table <- as.data.frame(fit$anova)
+
+# drop the "<All variables>" summary row, keep only actual selection steps
+sel_table <- sel_table[rownames(sel_table) != "<All variables>", ]
+
+# variable names have a "+ " prefix — strip it and trim whitespace
+selected_vars <- trimws(gsub("^\\+ ", "", rownames(sel_table)))
+
+selected_vars
+#> [1] "elev"  "bio10" "qscat" "bio18" "bio15"
 ```
 
 
 ## Run an outlier model with just the chosen environmental varialbles
 ```{r}
-#RDA_outliers <- rda(gen.impall ~ bio12 + bio03 + bio13 + tree + bio11 + bio09 + bio15,  pred2)
-#saveRDS(RDA_outliers,"output/CAWA.RDAoutliers.169Indiv_impute.wc2.1.RDS")
-RDA_outliers<-readRDS("output/CAWA.RDAoutliers.169Indiv_impute.wc2.1.RDS")
+final_formula <- as.formula(
+  paste("gen.impall ~", paste(selected_vars, collapse = " + "))
+)
+RDA_outliers <- rda(final_formula, data = pred2)
+#saveRDS(RDA_outliers,"WAVI.RDAoutliers.188Indiv.noHyb.impute.chelsa.RDS")
+RDA_outliers<-readRDS("~/Desktop/WAVI/GEA/output_alpine/WAVI.RDAoutliers.188Indiv.noHyb.impute.named_snps.chelsa.RDS")
+RDA_outliers<-readRDS("output/excludeLD_dataset/WAVI.RDAoutliers.188ind.noHyb.exclLD.impute.chelsa.no_land.RDS")
 RsquareAdj(RDA_outliers)
+#$r.squared [1] 0.0359304
+
+#$adj.r.squared [1] 0.009444972
 #anova(RDA_outliers)
+
+summary(eigenvals(RDA_outliers, model = "constrained"))
 ```
 
-
-## Plot in PC space the relationship of these variables and the individuals
+## Environmental Loadings
 ```{r}
-TAB_loci <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="species", scaling="none"))
-TAB_var <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="bp"))
+env_loadings <- scores(RDA_outliers, display = "bp")
+env_loadings %>% write.table("WAVI188.noHyb.RDA_outlier.loadings.chelsa.txt",row.names=T,quote=F,sep="\t")
+# To view the loadings for the first two axes
+env_loadings
+```
+```{r}
+screeplot(RDA_outliers)
+```
+```{r}
+vif.cca(RDA_outliers)
+```
 
-pdf("figures/RDA_outlier.biplot.wc2.1.pdf")
+## Adaptive landscape: projecting adaptive gradient(s) across space
+### Plot in PC space the relationship of these variables and the individuals
+Note that Brenna plotted the adaptively enriched RDA- we are not subsetting to the super adpative loci, we are using all loci as recommended by Lotteros et al, but we do subset to the variables selected in the forward selection model. For ROFI, we are using top variables from gradient forest to be consistent.
+
+### First get eigenvalues for plot
+```{r}
+# eigenvalues for each constrained RDA axis
+eigenvals <- RDA_outliers$CCA$eig
+
+# sum each set of eigenvalues separately, then add totals
+total_inertia <- sum(RDA_outliers$CA$eig) + sum(RDA_outliers$CCA$eig)
+
+# % of total variance for each constrained (RDA) axis
+pct_explained <- RDA_outliers$CCA$eig / total_inertia * 100
+
+print(paste('Percent variance explained for each RDA axis'))
+pct_explained
+
+# proportion of constrained variance per RDA axis
+pct_constrained <- RDA_outliers$CCA$eig / sum(RDA_outliers$CCA$eig) * 100
+
+print(paste('Proportion of constrained variance explained for each RDA axis in a partial RDA'))
+pct_constrained
+pct1 <- round(pct_constrained[1], 2)
+pct2 <- round(pct_constrained[2], 2)
+
+```
+
+```{r}
+#TAB_loci <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="species", scaling="none"))
+TAB_var <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="bp"))
+TAB_sites <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="sites")) %>% rownames_to_column(var = "Sample") %>% left_join(waviSampled)
+
+
+levels(TAB_sites$Population) <- c("BlackHills","NorthernMX","Arizona","NM","Nevada","Boulder","Larimer","LaramieMtns","FerrisMountains" ,"RedLodge" , "Lewistown","Bozeman","Anaconda","Tendoy","Helena","Boise","Cascade","NIdaho","Missoula","Augusta_Choteau","Whitefish","CypressHills","NWBC","Mackenzie","Jasper","SwanHills","AlderFlats","Castle","Canmore_Banff","Revelstoke","Kamloops","Pemberton","VancouverIsland","Manning","Silverton","NEWA","NEOR","IkenickCreek","CoOR","Masterson","CoCA","Yosemite")
+
+bg_ind <- c("#CC79A7","#FF6600","#FF3300","#FF6633","#FF6666","#FF9966","#CC3300","#FF3311","#FF6622","#FF7F50","#FF7256","#CD5B45","#C1FFC1","#B4eeb4","#90EE90","#9AFF9A","#33a02c","#33b62c","#33c62c","#37a62c","#00CD00","#008B00","#7CCD7C","#548B54","#2E8B57","#43CD80","#4EEE94","#00FF7F","#00EE76","#00CD66","#008B45","#9ACD32","#698B22","#6B8E23","#556B2F","#6E8B3D","#6E8B2D","#8FBC8F","#698B69","#698B72","#E0EEEE","#838B8B") 
+
+
+pdf("output/WAVI.RDA_outlier.188Ind.noHyb.impute.biplot.chelsa.no_land.pdf")
 ggplot() +
-  geom_hline(yintercept=0, linetype="dashed", color = gray(.80), linewidth=0.6) +
-  geom_vline(xintercept=0, linetype="dashed", color = gray(.80), linewidth=0.6) +
-  geom_point(data = TAB_loci, aes(x=RDA1*3, y=RDA2*3), colour = "#EB8055FF", size = 2, alpha = 0.8) + #"#F9A242FF"
-  geom_segment(data = TAB_var, aes(xend=RDA1, yend=RDA2, x=0, y=0), colour="black", linewidth=0.15, linetype=1, arrow=arrow(length = unit(0.02, "npc"))) +
+  geom_hline(yintercept=0, linetype="dashed", color = gray(.80), linewidth=0.2) +
+  geom_vline(xintercept=0, linetype="dashed", color = gray(.80), linewidth=0.2) +
+  #geom_point(data = TAB_loci, aes(x=RDA1*3, y=RDA2*3), colour = "#EB8055FF", size = 2, alpha = 0.8) + #"#F9A242FF"
+  geom_point(data = TAB_sites, aes(x=-RDA1, y=RDA2,color= Population), size = 2, alpha = 0.8) +
+  geom_segment(data = TAB_var, aes(xend=-RDA1*18, yend=RDA2*18, x=0, y=0), colour="black", linewidth=0.15, linetype=1, arrow=arrow(length = unit(0.02, "npc"))) +
+  geom_text(data = TAB_var, aes(x= -RDA1*19, y=19*RDA2, label = row.names(TAB_var)), size = 3, family = "Times") +
+  xlab(paste0("RDA 1 (", pct1, "%)")) +
+  ylab(paste0("RDA 2 (", pct2, "%)")) +
+  facet_wrap(~"Adaptive RDA space- all loci") +
+  guides(color=guide_legend(title="Populations")) +
+  scale_color_discrete(palette=bg_ind)+
+  theme_bw(base_size = 11, base_family = "Times") +
+  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))+
+  theme(legend.key.size = unit(0.1, "cm"),
+    legend.title = element_text(size = 8), # Adjust title font size
+    legend.text = element_text(size = 6),   # Adjust label font size
+        legend.spacing.x = unit(0.05, "cm"), # Adjust horizontal spacing
+    legend.margin = margin(t = 0.01, r = 0.01, b = 0.01, l = 0.01, unit = "cm") # Adjust legend margins
+) + theme(aspect.ratio = 1)
+dev.off()
+
+```
+## Adaptive index, function to predict genomic offset from a RDA model
+```{r}
+#Can't run this source- it removes everything in the environment (RDA_outliers, center)
+#source("src/generate_adaptwest_rasterstack.R")
+
+source("~/Rproj_git/RDA_GEA_GenomicOffset_WAVI/src/adaptive_index.R")
+
+res_RDA_proj_current <- adaptive_index(RDA = RDA_outliers, K = 6, env_pres = envVars, range = wavi, method = "loadings", scale_env = scale_env, center_env = center_env)
+
+##checks of class for next steps
+str(res_RDA_proj_current, max.level = 1)
+class(res_RDA_proj_current)
+names(res_RDA_proj_current)
+class(res_RDA_proj_current$RDA1)
+```
+#The adaptive index thus provides an estimate of adaptive genetic similarity or difference of all pixels on the landscape as a function of the values of the environmental predictors at that location. When projected on a map it allows visualizing the different adaptive gradients across a species range.
+
+## Vectorization of the climatic rasters for ggplot
+rasterToPoints does not work when raster is not loaded. Here, I used terra equivalent.
+
+```{r}
+RDA_proj <- list(res_RDA_proj_current$RDA1, res_RDA_proj_current$RDA2)
+RDA_proj <- list(res_RDA_proj_current$RDA1, res_RDA_proj_current$RDA2)
+#RDA_proj <- lapply(RDA_proj, function(x) rasterToPoints(x))
+#for(i in 1:length(RDA_proj)){
+#  RDA_proj[[i]][,3] <- (RDA_proj[[i]][,3]-min(RDA_proj[[i]][,3]))/(max(RDA_proj[[i]][,3])-min(RDA_proj[[i]][,3]))
+#}
+
+RDA_proj <- lapply(RDA_proj, function(x) as.data.frame(x, xy = TRUE, na.rm = TRUE))
+for(i in 1:length(RDA_proj)){
+  RDA_proj[[i]][,3] <- (RDA_proj[[i]][,3]-min(RDA_proj[[i]][,3]))/(max(RDA_proj[[i]][,3])-min(RDA_proj[[i]][,3]))
+}
+
+##include ne raster
+## Administrative boundaries
+library(rnaturalearth)
+admin <- ne_countries(scale = "medium", returnclass = "sf")
+admin2 <- ne_states(country=c("United States of America","Canada"),returnclass = "sf")
+env_pop<-waviSampled %>% group_by(Population) %>% summarise(meanLat=mean(lat),meanLong=mean(long))
+
+## Adaptive genetic turnover projected across cawa range for RDA1 and RDA2 indexes
+RDA_proj_renamed <- lapply(RDA_proj[1:2], function(df) { names(df)[3] <- "value"; df })
+TAB_RDA <- do.call(rbind, RDA_proj_renamed)
+TAB_RDA <- as.data.frame(TAB_RDA)
+TAB_RDA$variable <- factor(c(rep("RDA1", nrow(RDA_proj[[1]])), rep("RDA2", nrow(RDA_proj[[2]]))), levels = c("RDA1","RDA2"))
+saveRDS(TAB_RDA,file="output/AdaptIndex.WAVI.188ind_noHyb.imputed.env.UncorrectedPop.Chelsa6fix.K6.df.wavi_breed.RDS")
+
+library(ggspatial)
+pdf("output/WAVI.adapt_gen_turnover.RDA_outliers.Chelsa6_no_land.K6.viridis.WAVI_shp_simple.pdf")
+ggplot(data = TAB_RDA) + 
+  geom_sf(data = admin, fill=gray(.9), size=0) +
+  geom_raster(aes(x = x, y = y, fill = cut(value, breaks=seq(0, 1, length.out=10), include.lowest = T))) + 
+  scale_fill_viridis_d(alpha = 0.8, direction = -1, option = "viridis", labels = c("Negative scores","","","","Intermediate scores","","","","Positive scores")) +
+  geom_spatial_point(data=env_pop,aes(meanLong,meanLat),shape=1) +
+  geom_sf(data = admin, fill=NA, size=0.1) +
+  coord_sf(xlim = c(-170, -90), ylim = c(10, 72), expand = FALSE) +
+  xlab("Longitude") + ylab("Latitude") +
+  guides(fill=guide_legend(title="Adaptive index")) +
+  facet_grid(~ variable) +
+  theme_bw(base_size = 8, base_family = "Times") +
+  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))+
+  theme(legend.key.size = unit(0.1, "cm"),
+    legend.title = element_text(size = 8), # Adjust title font size
+    legend.text = element_text(size = 6),   # Adjust label font size
+        legend.spacing.x = unit(0.05, "cm"), # Adjust horizontal spacing
+    legend.margin = margin(t = 0.01, r = 0.01, b = 0.01, l = 0.01, unit = "cm") # Adjust legend margins
+) + theme(aspect.ratio = 1)
+dev.off()
+
+```
+
+## Get candidate loci for 3 standard deviaitons away
+### Get snp scores for the constrained axes 1 thorugh num_axes
+```{r}
+num_axes <- 2
+loadings <- scores(RDA_outliers, choices = 1:num_axes, display = "species")
+
+# helper function: find outlier SNPs beyond z standard deviations
+find_outliers <- function(x, z = 3) {
+  lims <- mean(x) + c(-1, 1) * z * sd(x) # threshold: mean ± z*sd
+  x[x < lims[1] | x > lims[2]]           # return SNPs outside limits
+}
+
+# identify outlier SNPs for each axis
+outlier_list <- lapply(1:num_axes, function(ax) {
+  vals <- loadings[, ax]
+  snps <- find_outliers(vals, z = 3)
+  data.frame(
+    axis     = ax,
+    snp      = names(snps),
+    loading  = unname(snps),
+    stringsAsFactors = FALSE
+  )
+})
+
+# combine into one dataframe
+outliers_df <- do.call(rbind, outlier_list)
+
+#  total number of candidate SNPs
+n_candidates <- nrow(outliers_df)
+cat("Number of candidate SNPs:", n_candidates, "\n")
+```
+
+## Calculate correlations of candidate SNPs with predictors assuming your predictors are in a matrix/dataframe 'pred2'
+```{r}
+#selected_vars<-c("elev", "bio10" ,"qscat", "bio18", "bio15")
+predictors <- pred2[selected_vars]
+cor_mat <- matrix(nrow = n_candidates, ncol = ncol(predictors))
+colnames(cor_mat) <- colnames(predictors)
+
+for (i in 1:n_candidates) {
+  snp_name <- outliers_df$snp[i]
+  snp_gen  <- gen.impall[, snp_name]
+  cor_mat[i, ] <- apply(predictors, 2, function(x) cor(x, snp_gen))
+}
+
+cand <- cbind(outliers_df, cor_mat)
+
+# remove SNPs detected on multiple axes
+cand <- cand[!duplicated(cand$snp), ]
+
+# identify which predictor each SNP is most strongly correlated with
+predictor_cols <- colnames(predictors)
+
+cand$predictor <- apply(cand[, predictor_cols], 1, function(row) {
+  predictor_cols[which.max(abs(row))]
+})
+
+cand$correlation <- apply(cand[, predictor_cols], 1, function(row) {
+  max(abs(row))
+})
+
+# print number of SNPs per predictor
+table(cand$predictor)
+
+cand$snp2 <- sub("_[ACGT]$", "", cand$snp)
+cand$CHROM <- paste0(sub("RagTag.*$", "", cand$snp2, "RagTag"))
+cand$POS   <- sub(".*RagTag\\.", "", cand$snp2)
+
+#.* — greedily matches everything from the start of the string
+saveRDS(cand, "candidate_snps_with_correlation.chrom_pos_fixed.RDS")
+
+candidate_snps <- cand$snp
+#saveRDS(candidate_snps, "candidate_snps_noci.RDS")
+
+cand_pos <- t(sapply(candidate_snps, function(x) {
+  # split chrom vs position/allele by pattern in scaffold name
+  #This is robust to however many periods precede RagTag, since it's anchored to the literal string rather than counting delimiter positions.
+  if (!grepl("RagTag", x)) {
+    cat("Problem SNP (no 'RagTag'):", x, "\n")
+    return(c(CHROM = NA, POS = NA))
+  }
+  
+  chrom <- paste0(sub("RagTag.*$", "", x), "RagTag")
+  pos_allele <- sub(".*RagTag\\.", "", x)
+  
+  # extract numeric position before underscore
+  pos <- suppressWarnings(as.integer(str_split(pos_allele, "_")[[1]][1]))
+  
+  if (is.na(pos)) {
+    cat("Could not parse position for SNP:", x, "\n")
+  }
+  
+  c(CHROM = chrom, POS = pos)
+}))
+
+# convert to data frame
+cand_pos <- as.data.frame(cand_pos, stringsAsFactors = FALSE)
+cand_pos$POS <- as.integer(cand_pos$POS)
+
+
+
+cat("Number of NA positions:", sum(is.na(cand_pos$POS)), "\n")
+print(head(cand_pos, 10))
+
+# write out
+write_tsv(cand_pos, "WAVI.188ind.noHyb.candidate_adaptive_snps_subset.tsv", col_names = FALSE)
+```
+
+## Another way to get outlier snps (not by standard deviation but by p-value)
+```{r}
+library(robust)
+#if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+#BiocManager::install("qvalue")
+library(qvalue)
+## Function rdadapt
+source("./src/rdadapt.R")
+
+## Running the function with K = 2
+rdadapt_env<-rdadapt(RDA_outliers, 2)
+head(rdadapt_env)
+dim(rdadapt_env)
+tot<-cbind(colnames(gen.impall),rdadapt_env) %>% mutate(snp=sub("_[ACGT]$", "", `colnames(gen.impall)`),CHROM=paste0(sub("RagTag.*$", "", snp), "RagTag"),POS=sub(".*RagTag\\.", "", snp))
+tot<-cbind(colnames(gen.impall),rdadapt_env) %>% mutate(snp=sub("_[ACGT]$", "", `colnames(gen.impall)`),CHROM=paste0(sub("RagTag.*$",
+ "", snp), "RagTag"),POS=sub(".*RagTag\\.", "", snp))
+head(tot)
+tail(tot)
+tot %>% write.table("output/WAVI.RDAoutlier.188ind.noHyb.rdadapt_env.p_q_value.txt",row.names=F,quote=F,sep="\t")
+
+```
+
+```{r}
+## P-values threshold after Bonferroni correction
+thres_env <- 0.01/length(rdadapt_env$p.values)
+
+## Identifying the loci that are below the p-value threshold
+outliers <- data.frame(Loci = colnames(gen.impall)[which(rdadapt_env$p.values<thres_env)], p.value = rdadapt_env$p.values[which(rdadapt_env$p.values<thres_env)], contig = unlist(lapply(strsplit(colnames(gen.impall)[which(rdadapt_env$p.values<thres_env)], split = "_"), function(x) x[1]))) 
+head(outliers)
+```
+
+#keeping all loci per contig (not narrowing it down to one per contig)
+```{r}
+outliers <- outliers[order(outliers$contig, outliers$p.value), ]
+
+outliers$snp <- sub("_[ACGT]$", "", outliers$Loci)
+#outliers$CHROM <- sub("\\.[^.]*$", "", outliers$snp) # remove the final ".xxxx" segment
+#outliers$POS   <- sub(".*\\.", "", outliers$snp) # keep only what's after the final "."
+outliers$CHROM <- paste0(sub("RagTag.*$", "", outliers$snp), "RagTag")
+outliers$POS   <- sub(".*RagTag\\.", "", outliers$snp)
+dim(outliers)
+
+write.table(outliers,"output/WAVI.188ind.noHyb.outlier_BonferroniCorr.pvalue.loci.txt",row.names=F,quote=F,sep="\t")
+```
+
+```{r}
+## Formatting table for ggplot
+locus_scores <- scores(RDA_outliers, choices=c(1:2), display="species", scaling="none") #these are loci (but we don't want 7 million)
+TAB_loci <- data.frame(names = row.names(locus_scores), locus_scores)
+TAB_loci$type <- "Neutral"
+TAB_loci$type[TAB_loci$names %in% outliers$Loci] <- "All outliers"
+TAB_loci$type <- factor(TAB_loci$type, levels = c("Neutral", "All outliers"))
+TAB_loci %>% distinct(type)
+## Subset Neutral loci to 100K, keep all outliers
+set.seed(42)  # for reproducibility
+
+neutral_rows  <- TAB_loci[TAB_loci$type == "Neutral", ]
+outlier_rows  <- TAB_loci[TAB_loci$type == "All outliers", ]
+
+if (nrow(neutral_rows) > 100000) {
+  neutral_rows <- neutral_rows[sample(nrow(neutral_rows), 400000), ]
+}
+
+TAB_loci2 <- rbind(neutral_rows, outlier_rows)
+TAB_loci2 <- TAB_loci2[order(TAB_loci2$type), ]
+
+TAB_var <- as.data.frame(scores(RDA_outliers, choices=c(1,2), display="bp"))
+
+## Biplot of RDA loci and variables scores
+ggplot() +
+  geom_hline(yintercept=0, linetype="dashed", color = gray(.80), size=0.6) +
+  geom_vline(xintercept=0, linetype="dashed", color = gray(.80), size=0.6) +
+  geom_point(data = TAB_loci2, aes(x=RDA1*61, y=RDA2*61, colour = type), size = 1.4) +
+  scale_color_manual(values = c("gray90", "#F9A242FF", "#6B4596FF")) +
+  geom_segment(data = TAB_var, aes(xend=RDA1, yend=RDA2, x=0, y=0), colour="black", size=0.15, linetype=1, arrow=arrow(length = unit(0.02, "npc"))) +
   geom_text(data = TAB_var, aes(x=1.1*RDA1, y=1.1*RDA2, label = row.names(TAB_var)), size = 2.5, family = "Times") +
-  xlab("RDA 1 (XX%)") + ylab("RDA 2 (XX%)") +
-  facet_wrap(~"Adaptively not really enriched RDA space") +
+  xlab("RDA 1") + ylab("RDA 2") +
+  facet_wrap(~"RDA space") +
   guides(color=guide_legend(title="Locus type")) +
   theme_bw(base_size = 11, base_family = "Times") +
-  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))
+  theme(panel.background = element_blank(), legend.background = element_blank(), panel.grid = element_blank(), plot.background = element_blank(), legend.text=element_text(size=rel(.8)), strip.text = element_text(size=11))
+```
+```{r}
+ggsave("WAVI.188ind.noHyb.RDAoutlier_loci_plot.subet.pdf")
+```
+
+
+## Partial RDA conditioning on MEM
+```{r}
+env_terms <- paste(selected_vars, collapse = " + ")  # your env vars from ordiR2step earlier
+cond_terms <- paste(sig_mems, collapse = " + ")
+
+partial_formula <- as.formula(
+  paste("gen.impall ~", env_terms, "+ Condition(", cond_terms, ")")
+)
+
+partial_rda <- rda(partial_formula, data = env_data_mem)
+```
+## Variance partitioning
+```{r}
+# environmental effect after conditioning out space
+RsquareAdj(partial_rda)
+
+# variance partitioning: pure environment, pure space, shared, unexplained
+# build formulas as strings, then convert to formula objects
+env_formula <- as.formula(paste("~", paste(selected_vars, collapse = " + ")))
+spatial_formula <- as.formula(paste("~", paste(sig_mems_top, collapse = " + ")))
+
+# run varpart with dynamically built formulas
+varpart_result <- varpart(
+  gen.impall,           # or gen.impall / your genetic response matrix
+  env_formula,
+  spatial_formula,
+  data = env_data_mem    # data frame containing both env vars and MEM columns
+)
+saveRDS(varpart_result,"WAVI.188ind.NoHyb.exclLD.VarPart.Env_SelMEM.RDS")
+
+pdf("WAVI.188ind.NoHyb.exclLD.VarPart.Env_SelMEM.pdf")
+plot(varpart_result)
 dev.off()
+
+print(paste('Ran and saved VarPart for selected environmental variables and top MEMs'))
+
 ```
 
 
-#Adaptive landscape: projecting adaptive gradient(s) across space
-
-Note that Brenna plotted the adaptively enriched RDA- we are not subsetting to the super adpative loci, we are using all loci as recommended by Lotteros et al, but we do subset to the variables selected in the forward selection model
-
 ```{r}
-#RDA_outliers <- rda(gen.impall ~ bio12 + bio03 + bio13 + tree + bio11 + bio09 + bio15,  pred2)
-#saveRDS(RDA_outliers,"output/CAWA.RDAoutliers.169Indiv_impute.wc2.1.RDS")
-RDA_outliers<-readRDS("output/WAVI.RDAoutliers.169Indiv_impute.wc2.1.RDS")
-RsquareAdj(RDA_outliers)
-#anova(RDA_outliers)
+# eigenvalues for each constrained RDA axis
+eigenvalsP <- partial_rda$CCA$eig
+
+# sum each set of eigenvalues separately, then add totals
+total_inertiaP <- sum(partial_rda$CA$eig) + sum(partial_rda$CCA$eig)
+
+# % of total variance for each constrained (RDA) axis
+pct_explainedP <- partial_rda$CCA$eig / total_inertiaP * 100
+
+print(paste('Percent variance explained for each RDA axis in a partial RDA'))
+pct_explainedP
+
+# proportion of constrained variance per RDA axis
+pct_constrainedP <- partial_rda$CCA$eig / sum(partial_rda$CCA$eig) * 100
+
+print(paste('Proportion of constrained variance explained for each RDA axis in a partial RDA'))
+pct_constrainedP
+pct1 <- round(pct_constrainedP[1], 2)
+pct2 <- round(pct_constrainedP[2], 2)
+
 ```
 
-Now let's plot the RDA outliers.
 ```{r}
-TAB_loci <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="species", scaling="none"))
-TAB_var <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="bp"))
+#TAB_loci <- as.data.frame(scores(RDA_outliers, choices=c(1:2), display="species", scaling="none"))
+TAB_varP <- as.data.frame(scores(partial_rda, choices=c(1:2), display="bp"))
+TAB_sitesP <- as.data.frame(scores(partial_rda, choices=c(1:2), display="sites")) %>% rownames_to_column(var = "Sample") %>% left_join(waviSampled)
+selected_vars[-"bio15",]
 
-pdf("figures/RDA_outlier.biplot.wc2.1.pdf")
+levels(TAB_sitesP$Population) <- c("BlackHills","NorthernMX","Arizona","NM","Nevada","Boulder","Larimer","LaramieMtns","FerrisMountains" ,"RedLodge" , "Lewistown","Bozeman","Anaconda","Tendoy","Helena","Boise","Cascade","NIdaho","Missoula","Augusta_Choteau","Whitefish","CypressHills","NWBC","Mackenzie","Jasper","SwanHills","AlderFlats","Castle","Canmore_Banff","Revelstoke","Kamloops","Pemberton","VancouverIsland","Manning","Silverton","NEWA","NEOR","IkenickCreek","CoOR","Masterson","CoCA","Yosemite")
+
+bg_ind <- c("#CC79A7","#FF6600","#FF3300","#FF6633","#FF6666","#FF9966","#CC3300","#FF3311","#FF6622","#FF7F50","#FF7256","#CD5B45","#C1FFC1","#B4eeb4","#90EE90","#9AFF9A","#33a02c","#33b62c","#33c62c","#37a62c","#00CD00","#008B00","#7CCD7C","#548B54","#2E8B57","#43CD80","#4EEE94","#00FF7F","#00EE76","#00CD66","#008B45","#9ACD32","#698B22","#6B8E23","#556B2F","#6E8B3D","#6E8B2D","#8FBC8F","#698B69","#698B72","#E0EEEE","#838B8B") 
+
+
+pdf("WAVI.RDAoutlier.188ind.noHyb.impute.biplot.chelsa5.partialRDA.condMEM2.pdf")
 ggplot() +
-  geom_hline(yintercept=0, linetype="dashed", color = gray(.80), linewidth=0.6) +
-  geom_vline(xintercept=0, linetype="dashed", color = gray(.80), linewidth=0.6) +
-  geom_point(data = TAB_loci, aes(x=RDA1*3, y=RDA2*3), colour = "#EB8055FF", size = 2, alpha = 0.8) + #"#F9A242FF"
-  geom_segment(data = TAB_var, aes(xend=RDA1, yend=RDA2, x=0, y=0), colour="black", linewidth=0.15, linetype=1, arrow=arrow(length = unit(0.02, "npc"))) +
-  geom_text(data = TAB_var, aes(x=1.1*RDA1, y=1.1*RDA2, label = row.names(TAB_var)), size = 2.5, family = "Times") +
-  xlab("RDA 1 (XX%)") + ylab("RDA 2 (XX%)") +
-  facet_wrap(~"Adaptively not really enriched RDA space") +
+  geom_hline(yintercept=0, linetype="dashed", color = gray(.80), linewidth=0.2) +
+  geom_vline(xintercept=0, linetype="dashed", color = gray(.80), linewidth=0.2) +
+  #geom_point(data = TAB_loci, aes(x=RDA1*3, y=RDA2*3), colour = "#EB8055FF", size = 2, alpha = 0.8) + #"#F9A242FF"
+  geom_point(data = TAB_sites, aes(x=-RDA1, y=RDA2,color= Population), size = 2, alpha = 0.8) +
+  geom_segment(data = TAB_var, aes(xend=-RDA1*18, yend=RDA2*18, x=0, y=0), colour="black", linewidth=0.15, linetype=1, arrow=arrow(length = unit(0.02, "npc"))) +
+  geom_text(data = TAB_var, aes(x= -RDA1*19, y=19*RDA2, label = row.names(TAB_var)), size = 3, family = "Times") +
+  xlab(paste0("RDA 1 (", pct1, "%)")) +
+  ylab(paste0("RDA 2 (", pct2, "%)")) +
+  facet_wrap(~"Adaptive RDA space- all loci") +
+  guides(color=guide_legend(title="Populations")) +
+  scale_color_discrete(palette=bg_ind)+
+  theme_bw(base_size = 11, base_family = "Times") +
+  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))+
+  theme(legend.key.size = unit(0.1, "cm"),
+    legend.title = element_text(size = 8), # Adjust title font size
+    legend.text = element_text(size = 6),   # Adjust label font size
+        legend.spacing.x = unit(0.05, "cm"), # Adjust horizontal spacing
+    legend.margin = margin(t = 0.01, r = 0.01, b = 0.01, l = 0.01, unit = "cm") # Adjust legend margins
+) + theme(aspect.ratio = 1)
+dev.off()
+
+```
+
+Formating data for manhattan plot
+```{r}
+## Manhattan plot
+Outliers <- rep("Neutral", length(colnames(gen.impall)))
+Outliers[colnames(gen.impall)%in%outliers$Loci] <- "All outliers"
+Outliers <- factor(Outliers, levels = c("Neutral", "All outliers"))
+TAB_manhatan <- data.frame(pos = 1:length(colnames(gen.impall)),
+                           pvalues = rdadapt_env$p.values,
+                           Outliers = Outliers)
+
+## Subset Neutral loci to 1 million for manhattan plot, keep all outliers
+set.seed(42)  # for reproducibility
+
+neutral_rows  <- TAB_manhatan[TAB_manhatan$Outliers == "Neutral", ]
+outlier_rows  <- TAB_manhatan[TAB_manhatan$Outliers == "All outliers", ]
+
+if (nrow(neutral_rows) > 1000000) {
+  neutral_rows <- neutral_rows[sample(nrow(neutral_rows), 1000000), ]
+  }
+
+TAB_manhatan2 <- rbind(neutral_rows, outlier_rows)
+TAB_manhatan2 <- TAB_manhatan2[order(TAB_manhatan2$Outliers), ]
+```
+#Plot manhattan plot. Not in order, axes not labeled with chr. 
+```{r}
+manhattan_plot<-ggplot(data = TAB_manhatan2) +
+  geom_point(aes(x=pos, y=-log10(pvalues), col = Outliers), size=1.4) +
+  scale_color_manual(values = c("gray90", "#F9A242FF", "#6B4596FF")) +
+  xlab("Loci") + ylab("-log10(p.values)") +
+  geom_hline(yintercept=-log10(thres_env), linetype="dashed", color = gray(.80), size=0.6) +
+  facet_wrap(~"Manhattan plot", nrow = 3) +
   guides(color=guide_legend(title="Locus type")) +
   theme_bw(base_size = 11, base_family = "Times") +
-  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))
-dev.off()
+  theme(legend.position="right", legend.background = element_blank(), panel.grid = element_blank(), legend.box.background = element_blank(), plot.background = element_blank(), panel.background = element_blank(), legend.text=element_text(size=rel(.8)), strip.text = element_text(size=11))
+
+ggsave(
+  filename = "WAVI.188ind.noHyb.Rdadapt_outlier_manhattan_plot.01pvalue.png",
+  plot = manhattan_plot,      # or your specific plot object, e.g., manhattan_plot
+  width = 12,              # inches — adjust based on how wide your Manhattan plot needs to be
+  height = 6,               # inches
+  dpi = 600,                # 300 = standard "high-res"; 600 = print-quality/journal-grade
+  units = "in",
+  bg = "white"               # ensures no transparent background issues
+)
+```
+
+
+############Genomic offset
+```{r}
+source("~/Rproj_git/RDA_GEA_GenomicOffset_WAVI/src/genomic_offset_debug2.R")
+wavi_breed<-st_read("~/Dropbox/BGP/WAVI/maps/warvir_range_2022/warvir_range_2022.gpkg") %>% filter(season=="breeding")
+## Running the function for 2050 and 2080
+#2060:future370
+#2060:future585
+
+#entire range
+res_RDA_proj2060_s370 <- genomic_offset(RDA_outliers, K = 2, env_pres = envVars_proj, env_fut = future370, range = wavi_vect, method = "loadings", scale_env = scale_env, center_env = center_env)
+res_RDA_proj2060_s585 <- genomic_offset(RDA_outliers, K = 2, env_pres = envVars_proj, env_fut = future585, range = wavi_vect, method = "loadings", scale_env = scale_env, center_env = center_env)
+
+
+##This is a way to troubleshoot differeing number of cells (though masking to range should work)
+ext(res_RDA_proj2060_s370$Proj_offset_global)
+ncell(res_RDA_proj2060_s370$Proj_offset_global)
+global(is.na(res_RDA_proj2060_s370$Proj_offset_global), "sum")
+
+
+## Table global genetic offset predicted for ssp245 and ssp585
+RDA_proj_offset <- data.frame(rbind(as.data.frame(terra::as.points(res_RDA_proj2060_s370$Proj_offset_global,values=TRUE),geom="XY"), as.data.frame(terra::as.points(res_RDA_proj2060_s585$Proj_offset_global,values=TRUE),geom="XY")), Scenario = c(rep("ssp370", nrow(as.data.frame(terra::as.points(res_RDA_proj2060_s370$Proj_offset_global,values=TRUE),geom="XY"))), rep("ssp585", nrow(as.data.frame(terra::as.points(res_RDA_proj2060_s585$Proj_offset_global,values=TRUE),geom="XY")))))
+
+RDA_proj_offset %>% write.table("output/WAVI.RDA_outlier.Chelsa6_noland.K2.genomic_offset.WAVI_shp_simple.future370_585.2071_2100.txt",row.names=F,quote=F,sep="\t")
+RDA_proj_offset
+
+library(tidyverse)
+RDA_proj_offset<-read_delim("output/WAVI.RDA_outlier.Chelsa6_noland.K2.genomic_offset.WAVI_shp_simple.future370_585.2071_2100.txt",delim="\t")
+
+```
+
+## Projecting genomic offset on a map
+
+```{r}
+##include ne raster
+## Administrative boundaries
+library(rnaturalearth)
+admin <- ne_countries(scale = "medium", returnclass = "sf")
+
+library(RColorBrewer)
+colors <- c(colorRampPalette(brewer.pal(11, "Spectral")[6:5])(3), colorRampPalette(brewer.pal(11, "Spectral")[4:3])(2), colorRampPalette(brewer.pal(11, "Spectral")[2:1])(3))
+rev_colors <- rev(colorRampPalette(RColorBrewer::brewer.pal(11, "Spectral"))(100))
+
+range(RDA_proj_offset$Global_offset)
+ggplot()+geom_histogram(data=RDA_proj_offset,aes(x=Global_offset))
+```
+```{r}
+ggsave("output/WAVI.gen_offset.histogram_range.wavi_simple.vlow.pdf")
+```
+
+```{r}
+library(ggspatial)
+RDA_proj_offset %>% 
+  ggplot() + 
+  geom_sf(data = admin, fill=gray(.9), size=0) +
+  geom_raster(aes(x = x, y = y, fill = Global_offset), alpha = 1) + 
+  scale_fill_gradientn(colors = rev_colors,limits=c(0,3),guide = "colourbar") +
+  geom_sf(data = wavi, fill=NA, size=0.1) +
+  geom_spatial_point(data=env_pop,aes(meanLong,meanLat),shape=1,size=1.5) +
+  coord_sf(xlim = c(-170, -80), ylim = c(10, 72), expand = FALSE) +
+  #scale_x_continuous(breaks = seq(-180,60, by = 20)) +
+  xlab("Longitude") + ylab("Latitude") +
+  facet_grid(~ Scenario) +
+  theme_bw(base_size = 11, base_family = "Times") +
+  theme(panel.grid = element_blank(), plot.background = element_blank(), panel.background = element_blank(), strip.text = element_text(size=11))+
+  theme(legend.key.size = unit(.5, "cm"),
+    legend.title = element_text(size = 8), # Adjust title font size
+    legend.text = element_text(size = 6),   # Adjust label font size
+        legend.spacing.x = unit(0.05, "cm"), # Adjust horizontal spacing
+    legend.margin = margin(t = 0.01, r = 0.01, b = 0.01, l = 0.01, unit = "cm")) + # Adjust legend margins
+  theme(aspect.ratio = 1)
+
+```
+```{r}
+ggsave("output/WAVI.Genomic_offset.wavi_shp_simple.debug2.spectral.RDA_outliers.Chelsa6_noland.K2.pdf")
 ```

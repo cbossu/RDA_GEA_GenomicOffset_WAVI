@@ -1,0 +1,65 @@
+---
+title: "WAVI genes"
+author: "CH Bossu"
+date: "2026-01-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## WAVI genes
+```{r}
+library(tidyverse)
+```
+
+WAVI genes
+```{r}
+annotation<-read_delim("~/Dropbox/BGP/WAVI/loco_pipe_results/fst/sitewise_fst_outlier/WAVI.emapper.annotations.tsv",comment = "##",delim="\t") %>% rename(query=`#query`) %>%  mutate(query=sub("\\.t1$", "", query)) %>% mutate(gene=if_else(Preferred_name=="-",query,Preferred_name)) %>% dplyr::select(query,Preferred_name,gene,Description,everything())
+
+annotation %>% filter(Preferred_name =="NA")
+```
+
+## Bedtools intersection with GTF
+
+```{r pressure, echo=FALSE}
+`%notin%`<-Negate(`%in%`)
+rdadapt_outliers01<-read_delim("~/Desktop/WAVI/GEA/output_alpine/WAVI.188ind.noHyb.outlier_BonferroniCorr.pvalue.loci.bed_closestGTF.within25kb",delim="\t",col_names = F) %>%
+  rename(chrom=X1,pos=X3,pvalue=X4,snp=X5,query=X14,dist=X15) %>% 
+  mutate(name=sub("_[ACGT]$", "", snp)) %>% dplyr::select(-c(X7,X9:X13)) %>% 
+  left_join(annotation) %>% distinct() %>% dplyr::select(-c(seed_ortholog,eggNOG_OGs,max_annot_lvl,EC, KEGG_ko,KEGG_Pathway,KEGG_Module:KEGG_rclass:BiGG_Reaction)) %>% mutate(gene=tolower(gene))
+
+E_Guerrero<-read_delim("East_rmrelnoHZ.Resident.combined.alpha_beta.txt.99.outlier.bed_closestGTF.25kb",delim="\t",col_names = F) %>% rename(chrom=X1,pos=X3,fst=X4,query=X13,dist=X14) %>% mutate(name=paste(chrom,pos,sep=".")) %>%  left_join(annotation) %>% filter(name %notin% E_W$name)
+
+```
+
+Blackhills
+```{r}
+#West and southwest
+W_SW<-read_delim("West_rmrelnoIBD.Southwest.combined.alpha_beta.txt.99.outlier.bed_closestGTF.25kb",delim="\t",col_names = F) %>% rename(chrom=X1,pos=X3,fst=X4,query=X13,dist=X14) %>% mutate(name=paste(chrom,pos,sep=".")) %>%  left_join(annotation)
+
+#Blackhills specific variants will not include snps that are also found in W/SW comparison
+W_Blackhills<-read_delim("West_rmrelnoIBD.BlackHills.combined.RagTag.alpha_beta.txt.99.outlier.bed_closestGTF.25kb",delim="\t",col_names = F) %>% rename(chrom=X1,pos=X3,fst=X4,query=X13,dist=X14) %>% mutate(name=paste(chrom,pos,sep=".")) %>%  left_join(annotation) %>% filter(name %notin% W_SW$name)
+
+W_Blackhills %>% write.table("West_rmrelnoIBD.BlackHills.combined.RagTag.alpha_beta.txt.99.outlier.bed_closestGTF.25kb.gene_name.emapper.rmWSW.txt",row.names=F,quote=F,sep="\t")
+
+SW_Blackhills<-read_delim("BlackHills.Southwest.combined.alpha_beta.txt.99.outlier.bed_closestGTF.25kb",delim="\t",col_names = F) %>% rename(chrom=X1,pos=X3,fst=X4,query=X13,dist=X14) %>% mutate(name=paste(chrom,pos,sep=".")) %>%  left_join(annotation) %>% filter(name %notin% W_SW$name)
+
+SW_Blackhills %>% write.table("BlackHills.Southwest.combined.alpha_beta.txt.99.outlier.bed_closestGTF.25kb.gene_name.emapper.rmWSW.txt",row.names=F,quote=F,sep="\t")
+
+
+
+```
+## Candidate genes
+```{r}
+migr1 <-read_delim("~/Dropbox/BGP/Candidate_gene_lists/PrimaryMigr.candidategene.list.wCitation.txt",delim="\t",col_names = F) %>% rename(gene=X1,Function=X2,Reference=X3)%>% mutate(gene=tolower(gene))
+migr2 <- read_delim("~/Dropbox/BGP/Candidate_gene_lists/Secondary.candidategene.list2_dropbox",delim="\t",col_names = F) %>% rename(gene=X1,Reference=X2)%>% mutate(gene=tolower(gene))
+therm<-read_delim("~/Dropbox/BGP/Candidate_gene_lists/Candidate_Genes_JustChickenGO_Renamed.Grouped.txt",delim="\t") %>% rename(Reference=FunctionList) %>% dplyr::select(-Count) %>% mutate(gene=tolower(gene))
+
+genes<-migr1 %>% full_join(migr2) %>% full_join(therm) %>% arrange(gene)
+```
+
+```{r}
+rdadapt_outliers01 %>% left_join(genes) %>%dplyr::select(-GOs,-COG_category,-PFAMs) %>% arrange(chrom,pos) %>%  write.table("~/Desktop/WAVI/GEA/output_alpine/WAVI.188ind.noHyb.outlier_BonferroniCorr.pvalue.loci.bed_closestGTF.within25kb.wCitations2.bed",row.names=F,col.names=F,quote=F,sep="\t")
+```

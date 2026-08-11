@@ -1,0 +1,548 @@
+---
+title: "WAVI manhattan windows"
+author: "CH Bossu"
+date: "2026-1-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Libraries
+```{r}
+library(tidyverse)
+```
+
+## Manhattan for full dataset
+```{r cars}
+wind <- read_delim('~/Desktop/WAVI/GEA/output_alpine/WAVI.RDAoutlier.188ind.noHyb.rdadapt_env.p_q_value.txt', delim="\t", col_names = T) %>% mutate(win_num=row_number(wind)) %>% rename(Loci=`colnames(gen.impall)`)
+wind %>% distinct(CHROM)
+radapt_outliers01<-read_delim("~/Desktop/WAVI/GEA/output_alpine/WAVI.188ind.noHyb.outlier_BonferroniCorr.rdadapt_pvalue.loci.fix_chrom.txt",delim="\t")
+
+wind_exclLD <- read_delim('~/Desktop/WAVI/GEA/output_alpine/WAVI.RDAoutlier.188ind.noHyb.rdadapt_env.p_q_value.txt rdadapt_env.p_q_value.txt', delim="\t", col_names = T) %>% mutate(win_num=row_number(wind)) %>% rename(Loci=`colnames(gen.impall)`)
+wind %>% distinct(CHROM)
+radapt_outliers<-read_delim("~/Desktop/WAVI/GEA/output_alpine/WAVI.188ind.noHyb.outlier_BonferroniCorr.rdadapt_pvalue.loci.fix_chrom.txt",delim="\t")
+
+#Genome assembly Cyanocitta cristata (blue jay) for VGP reference genome, bCyaCrs1: WAVI RAGTAG is associated with these chrom numbers
+chromosome_map <- c(
+ "CM100531.1_RagTag" = "1", "CM100532.1_RagTag" = "2", "CM100533.1_RagTag" = "3",
+ "CM100534.1_RagTag" = "4", "CM100535.1_RagTag" = "5", "CM100536.1_RagTag" = "6",
+ "CM100537.1_RagTag" = "7", "CM100538.1_RagTag" = "8", "CM100539.1_RagTag" = "9",   "CM100540.1_RagTag" = "10", "CM100541.1_RagTag" = "11", "CM100542.1_RagTag" = "12", "CM100543.1_RagTag" = "13", "CM100544.1_RagTag" = "14", "CM100545.1_RagTag" = "15", "CM100546.1_RagTag" = "16", "CM100547.1_RagTag" = "17", "CM100548.1_RagTag" = "18",
+ "CM100549.1_RagTag" = "19", "CM100550.1_RagTag" = "20", "CM100551.1_RagTag" = "21",  "CM100552.1_RagTag" = "22", "CM100553.1_RagTag" = "23", "CM100554.1_RagTag" = "24", "CM100555.1_RagTag" = "25", "CM100556.1_RagTag" = "26", "CM100557.1_RagTag" = "27", "CM100558.1_RagTag" = "28", "CM100559.1_RagTag" = "29", "CM100560.1_RagTag" = "30",
+   "CM100561.1_RagTag" = "31", "CM100562.1_RagTag" = "32", "CM100563.1_RagTag" = "33", "CM100564.1_RagTag" = "34", "CM100565.1_RagTag" = "35", "CM100566.1_RagTag" = "36",
+   "CM100567.1_RagTag" = "37","CM100568.1_RagTag" = "38", "CM100569.1_RagTag" = "39"
+ )
+
+ 
+wind$chr <- chromosome_map[as.character(wind$CHROM)]
+head(wind)
+wind2<-wind %>% 
+  rename(pos=POS) %>% 
+  mutate(outlier=if_else(Loci %in% radapt_outliers01$Loci,"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  #filter(CHROM!="32") %>% 
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+dim(wind2)
+
+
+#Genome assembly Cyanocitta cristata (blue jay) for VGP reference genome, bCyaCrs1: WAVI RAGTAG is associated with these chrom numbers
+chromosome_map <- c(
+ "CM100531.1_RagTag" = "1", "CM100532.1_RagTag" = "2", "CM100533.1_RagTag" = "3",
+ "CM100534.1_RagTag" = "4", "CM100535.1_RagTag" = "5", "CM100536.1_RagTag" = "6",
+ "CM100537.1_RagTag" = "7", "CM100538.1_RagTag" = "8", "CM100539.1_RagTag" = "9",   "CM100540.1_RagTag" = "10", "CM100541.1_RagTag" = "11", "CM100542.1_RagTag" = "12", "CM100543.1_RagTag" = "13", "CM100544.1_RagTag" = "14", "CM100545.1_RagTag" = "15", "CM100546.1_RagTag" = "16", "CM100547.1_RagTag" = "17", "CM100548.1_RagTag" = "18",
+ "CM100549.1_RagTag" = "19", "CM100550.1_RagTag" = "20", "CM100551.1_RagTag" = "21",  "CM100552.1_RagTag" = "22", "CM100553.1_RagTag" = "23", "CM100554.1_RagTag" = "24", "CM100555.1_RagTag" = "25", "CM100556.1_RagTag" = "26", "CM100557.1_RagTag" = "27", "CM100558.1_RagTag" = "28", "CM100559.1_RagTag" = "29", "CM100560.1_RagTag" = "30",
+   "CM100561.1_RagTag" = "31", "CM100562.1_RagTag" = "32", "CM100563.1_RagTag" = "33", "CM100564.1_RagTag" = "34", "CM100565.1_RagTag" = "35", "CM100566.1_RagTag" = "36",
+   "CM100567.1_RagTag" = "37","CM100568.1_RagTag" = "38", "CM100569.1_RagTag" = "39"
+ )
+
+ 
+wind$chr <- chromosome_map[as.character(wind$CHROM)]
+
+head(wind)
+wind2<-wind %>% 
+  mutate(outlier=if_else(fst > quantile(wind$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+
+west_g2<-west_g %>% 
+  mutate(outlier=if_else(fst > quantile(west_g$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+west_g2_out<-west_g2 %>% filter(outlier=="yes") %>% mutate(sharedoutlier=if_else(outlier=="yes" & name %notin% e_w2_out$name,"Guerrero_specific","shared_EastWest"))
+east_g2<-east_g %>% 
+  mutate(outlier=if_else(fst > quantile(east_g$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+east_g2_out<-east_g2 %>% filter(outlier=="yes") %>% mutate(sharedoutlier=if_else(outlier=="yes" & name %notin% e_w2_out$name,"Guerrero_specific","shared_EastWest"))
+sw_g2<-sw_g %>% 
+  mutate(outlier=if_else(fst > quantile(sw_g$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+sw_g2_out<-sw_g2 %>% filter(outlier=="yes") %>% mutate(sharedoutlier=if_else(outlier=="yes" & name %notin% e_w2_out$name,"Guerrero_specific","shared_EastWest"))
+```
+
+
+```{r}
+#determine max y axis value
+max(-log10(don$p.values))
+don <- wind2  %>% 
+
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(wind2, ., by=c("chr"="chr")) %>%
+  #left_join(west_g2_out) %>% 
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_1<-ggplot(don, aes(x=BPcum, y=-log10(p.values),color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(0,25.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don, is_highlight=="yes"), color="#069E73", size=1) + #green:AZ,shared
+ # geom_point(data=subset(don, sharedoutlier=="Guerrero_specific"), color="#F0E442", size=1) +
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="-log10(p-value)")
+g_1
+```
+## Save as high resolution png file
+```{r}
+ggsave(
+  filename = "WAVI.188ind.noHyb.Rdadapt_outlier_manhattan_plot.01pvalue.png",
+  plot = g_1,      # or your specific plot object, e.g., manhattan_plot
+  width = 12,              # inches — adjust based on how wide your Manhattan plot needs to be
+  height = 6,               # inches
+  dpi = 600,                # 300 = standard "high-res"; 600 = print-quality/journal-grade
+  units = "in",
+  bg = "white"               # ensures no transparent background issues
+)
+```
+#southwest
+don_sw <- sw_g2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(sw_g2, ., by=c("chr"="chr")) %>%
+  left_join(sw_g2_out) %>% 
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don_sw %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_sw<-ggplot(don_sw, aes(x=BPcum, y=fst,color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(-0.05,1.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don_sw, is_highlight=="yes"), color="#E69F00", size=1) + #southwest
+  geom_point(data=subset(don_sw, sharedoutlier=="Guerrero_specific"), color="#F0E442", size=1) +
+
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="FST")
+
+#east
+don_e <- east_g2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(east_g2, ., by=c("chr"="chr")) %>%
+  left_join(east_g2_out) %>% 
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+
+
+```
+
+## Now plots East vs. West, West vs. SW and Blackhills vs West and Southwest.
+```{r}
+e_w<- read_delim('West_rmrelnoIBD.East_rmrelnoHZ.50000bp_window.tsv', delim="\t", col_names = T) 
+w_sw<- read_delim('West_rmrelnoIBD.Southwest.50000bp_window.tsv', delim="\t", col_names = T) 
+w_sd<- read_delim('West_rmrelnoIBD.BlackHills.50000bp_window.tsv', delim="\t", col_names = T) 
+sw_sd<- read_delim('BlackHills.Southwest.50000bp_window.tsv', delim="\t", col_names = T) 
+
+
+#Genome assembly Cyanocitta cristata (blue jay) for VGP reference genome, bCyaCrs1: WAVI RAGTAG is associated with these chrom numbers
+chromosome_map <- c(
+ "CM100531.1_RagTag" = "1", "CM100532.1_RagTag" = "2", "CM100533.1_RagTag" = "3",
+ "CM100534.1_RagTag" = "4", "CM100535.1_RagTag" = "5", "CM100536.1_RagTag" = "6",
+ "CM100537.1_RagTag" = "7", "CM100538.1_RagTag" = "8", "CM100539.1_RagTag" = "9",   "CM100540.1_RagTag" = "10", "CM100541.1_RagTag" = "11", "CM100542.1_RagTag" = "12", "CM100543.1_RagTag" = "13", "CM100544.1_RagTag" = "14", "CM100545.1_RagTag" = "15", "CM100546.1_RagTag" = "16", "CM100547.1_RagTag" = "17", "CM100548.1_RagTag" = "18",
+ "CM100549.1_RagTag" = "19", "CM100550.1_RagTag" = "20", "CM100551.1_RagTag" = "21",  "CM100552.1_RagTag" = "22", "CM100553.1_RagTag" = "23", "CM100554.1_RagTag" = "24", "CM100555.1_RagTag" = "25", "CM100556.1_RagTag" = "26", "CM100557.1_RagTag" = "27", "CM100558.1_RagTag" = "28", "CM100559.1_RagTag" = "29", "CM100560.1_RagTag" = "30",
+   "CM100561.1_RagTag" = "31", "CM100562.1_RagTag" = "32", "CM100563.1_RagTag" = "33", "CM100564.1_RagTag" = "34", "CM100565.1_RagTag" = "35", "CM100566.1_RagTag" = "36",
+   "CM100567.1_RagTag" = "37","CM100568.1_RagTag" = "38", "CM100569.1_RagTag" = "39"
+ )
+
+ 
+e_w$chr <- chromosome_map[as.character(e_w$lg)]
+w_sw$chr <- chromosome_map[as.character(w_sw$lg)]
+w_sd$chr <- chromosome_map[as.character(w_sd$lg)]
+sw_sd$chr <- chromosome_map[as.character(sw_sd$lg)]
+
+head(wind)
+e_w2<-e_w %>% 
+  mutate(outlier=if_else(fst > quantile(e_w$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+e_w2_out<-e_w2 %>% filter(outlier=="yes")
+
+w_sw2<-w_sw %>% 
+  mutate(outlier=if_else(fst > quantile(w_sw$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+w_sw2_out<-w_sw2 %>% filter(outlier=="yes")
+
+w_sd2<-w_sd %>% 
+  mutate(outlier=if_else(fst > quantile(w_sd$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+w_sd2_out <- w_sd2 %>% filter(outlier=="yes") %>% mutate(sharedoutlier=if_else(outlier=="yes" & name %notin% w_sw2_out$name,"BlackHills_specific","shared_West_SW"))
+sw_sd2<-sw_sd %>% 
+  mutate(outlier=if_else(fst > quantile(sw_sd$fst, probs = 0.99, na.rm = TRUE),"yes","no")) %>% 
+  mutate(name=paste(chr,pos,sep="."))  %>%  
+  mutate_at(c('chr'), as.numeric) %>% na.omit() 
+sw_sd2_out<- sw_sd2 %>% filter(outlier=="yes") %>% mutate(sharedoutlier=if_else(outlier=="yes" & name %notin% w_sw2_out$name,"BlackHills_specific","shared_West_SW"))
+```
+
+##Plot those 4 in two pdfs
+```{r}
+#east
+don_ew <- e_w2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(e_w2, ., by=c("chr"="chr")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don_ew %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_ew<-ggplot(don_ew, aes(x=BPcum, y=fst,color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(-0.05,1.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don_ew, is_highlight=="yes"), color="#56B4E9", size=1) + #southwest
+
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="FST")
+
+don_wsw <- w_sw2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(w_sw2, ., by=c("chr"="chr")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don_wsw %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_wsw<-ggplot(don_wsw, aes(x=BPcum, y=fst,color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(-0.05,1.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don_wsw, is_highlight=="yes"), color="#E69F00", size=1) + #southwest
+
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="FST")
+
+don_wsd <- w_sd2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(w_sd2, ., by=c("chr"="chr")) %>%
+  left_join(w_sd2_out) %>% 
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don_wsd %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_wsd<-ggplot(don_wsd, aes(x=BPcum, y=fst,color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(-0.05,1.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don_wsd, is_highlight=="yes"), color="#009E73", size=1) + #southwest
+  geom_point(data=subset(don_wsd, sharedoutlier=="BlackHills_specific"), color="#CC79A7", size=1) + # blackhills outlier not found in west vs southwest outlier
+
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="FST")
+
+don_swsd <- sw_sd2 %>% 
+  # Compute chromosome size
+  group_by(chr) %>% 
+  summarise(chr_len=max(pos)) %>% 
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(chr_len)-chr_len) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(sw_sd2, ., by=c("chr"="chr")) %>%
+  left_join(sw_sd2_out) %>% 
+  
+  # Add a cumulative position of each SNP
+  arrange(chr, pos) %>%
+  mutate( BPcum=pos+tot) %>%
+  
+  # Add highlight and annotation information
+  mutate( is_highlight=ifelse(outlier == "yes", "yes", "no")) #%>%
+  #mutate( is_annotate=ifelse(gene != "noname", "yes", "no"))
+
+axisdf <- don_wsd %>% group_by(chr) %>% summarize(center=( max(BPcum) + min(BPcum) ) / 2 ) %>% mutate(CHR2=if_else(chr==38,"W",if_else(chr==39,"Z",as.character(chr))))
+
+# Make the plot
+g_swsd<-ggplot(don_swsd, aes(x=BPcum, y=fst,color=as.factor(chr))) +
+  
+  # Show all points
+  geom_point(alpha=0.8, size=0.9,shape=1) + 
+  #geom_hline(yintercept = 0.0278) +
+  scale_color_manual(values = rep(c("#666666","#999999", "#CCCCCC"), 31 )) +
+  
+  # custom X axis:
+  scale_x_continuous( label = axisdf$CHR2, breaks= axisdf$center,guide = guide_axis(n.dodge = 2,angle = 0,check.overlap=T)) +  
+  scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  ylim(-0.05,1.00) +
+  # Add highlighted points
+  
+  geom_point(data=subset(don_swsd, is_highlight=="yes"), color="#E69F00", size=1) + #southwest
+  geom_point(data=subset(don_swsd, sharedoutlier=="BlackHills_specific"), color="#CC79A7", size=1) + #southwest
+
+  # Add label using ggrepel to avoid overlapping
+ # geom_point(data=subset(don_all, is_highlight=="no"), aes(x=BPcum,y=FLFST), size=1,color = "#000000",shape=8) +
+  
+#  geom_label_repel(data=subset(don, is_annotate=="yes"), aes(x=BPcum,y=FLFST,label=gene), size=2,segment.color = "black",segment.size = .2,min.segment.length = unit(0, 'lines'),nudge_y = .03,max.overlaps = 50) +
+  
+  # Custom the theme:
+  theme_bw() +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    axis.line = element_line(color='light gray'),
+    plot.background = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(size = 5)
+  ) +labs(x="Chromosome",y="FST")
+
+pdf("West_v_East_Southwest.Manhattan.50kb_win.99outlier.pdf",useDingbats = F)
+ggarrange(g_ew,g_wsw,
+          #labels = c("West vs East","West vs Southwest", "West vs. Black Hills, SD"),
+          ncol = 1, nrow = 3)
+dev.off()
+
+pdf("West_Southwest_v_Blackhills.Manhattan.50kb_win.99outlier.shared.pdf",useDingbats = F)
+ggarrange(g_wsd,g_swsd,
+          #labels = c("West vs East","West vs Southwest", "West vs. Black Hills, SD"),
+          ncol = 1, nrow = 3)
+dev.off()
+```
+
+## Outliers
+```{r}
+`%notin%`<-Negate(`%in%`)
+west_g2_out %>% filter(name %notin% e_w2_out$name)
+sw_g2_out %>% filter(name %notin% e_w2_out$name)
+east_g2_out %>% filter(name %notin% e_w2_out$name)
+e_w2_out
+w_sw2_out
+w_sd2_out %>% filter(name %in% sw_sd2_out$name)%>% filter(name %notin% w_sw2_out$name)
+sw_sd2_out %>% filter(name %in% w_sd2_out$name)%>% filter(name %notin% w_sw2_out$name)
+```
