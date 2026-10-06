@@ -20,7 +20,7 @@ BiocManager::install("LEA")
 
 ```{r}
 R_MAX_VSIZE=350000000000 #himem cores, 400GB
-R_MAX_VSIZE=14000000000 #acompile, 4 cores
+#R_MAX_VSIZE=14000000000 #acompile, 4 cores
 library(vegan)
 library(adegenet)
 library(tidyverse)
@@ -388,7 +388,7 @@ rasterToPoints does not work when raster is not loaded. Here, I used terra equiv
 
 ```{r}
 RDA_proj <- list(res_RDA_proj_current$RDA1, res_RDA_proj_current$RDA2)
-RDA_proj <- list(res_RDA_proj_current$RDA1, res_RDA_proj_current$RDA2)
+#RDA_proj <- list(res_RDA_proj_current$RDA1, res_RDA_proj_current$RDA2)
 #RDA_proj <- lapply(RDA_proj, function(x) rasterToPoints(x))
 #for(i in 1:length(RDA_proj)){
 #  RDA_proj[[i]][,3] <- (RDA_proj[[i]][,3]-min(RDA_proj[[i]][,3]))/(max(RDA_proj[[i]][,3])-min(RDA_proj[[i]][,3]))
@@ -796,6 +796,15 @@ ext(res_RDA_proj2060_s370$Proj_offset_global)
 ncell(res_RDA_proj2060_s370$Proj_offset_global)
 global(is.na(res_RDA_proj2060_s370$Proj_offset_global), "sum")
 
+r <- rast_obj  # your SpatRaster
+class(res_RDA_proj2060_s370)
+r <- res_RDA_proj2060_s370[[4]]   # or by name, e.g. res_RDA_proj2060_s370$RDA1
+class(r) 
+res(res_RDA_proj2060_s370[[4]])
+# check if x/y resolution is uniform
+diff(sort(unique(round(as.data.frame(r, xy=TRUE)$x, 6))))
+
+compareGeom(res_RDA_proj2060_s370[[1]][[1]], res_RDA_proj2060_s370[[2]][[1]], stopOnError = FALSE)
 
 ## Table global genetic offset predicted for ssp245 and ssp585
 RDA_proj_offset <- data.frame(rbind(as.data.frame(terra::as.points(res_RDA_proj2060_s370$Proj_offset_global,values=TRUE),geom="XY"), as.data.frame(terra::as.points(res_RDA_proj2060_s585$Proj_offset_global,values=TRUE),geom="XY")), Scenario = c(rep("ssp370", nrow(as.data.frame(terra::as.points(res_RDA_proj2060_s370$Proj_offset_global,values=TRUE),geom="XY"))), rep("ssp585", nrow(as.data.frame(terra::as.points(res_RDA_proj2060_s585$Proj_offset_global,values=TRUE),geom="XY")))))
@@ -828,12 +837,14 @@ ggsave("output/WAVI.gen_offset.histogram_range.wavi_simple.vlow.pdf")
 ```
 
 ```{r}
+rm(RDA_outliers)
 library(ggspatial)
 RDA_proj_offset %>% 
   ggplot() + 
   geom_sf(data = admin, fill=gray(.9), size=0) +
-  geom_raster(aes(x = x, y = y, fill = Global_offset), alpha = 1) + 
-  scale_fill_gradientn(colors = rev_colors,limits=c(0,3),guide = "colourbar") +
+  #geom_raster(aes(x = x, y = y, fill = Global_offset), alpha = 1) + 
+  geom_tile(aes(x = x, y = y, fill = Global_offset),alpha=1) +
+  scale_fill_gradientn(colors = rev_colors,limits=c(0,4),guide = "colourbar") +
   geom_sf(data = wavi, fill=NA, size=0.1) +
   geom_spatial_point(data=env_pop,aes(meanLong,meanLat),shape=1,size=1.5) +
   coord_sf(xlim = c(-170, -80), ylim = c(10, 72), expand = FALSE) +
@@ -851,5 +862,5 @@ RDA_proj_offset %>%
 
 ```
 ```{r}
-ggsave("output/WAVI.Genomic_offset.wavi_shp_simple.debug2.spectral.RDA_outliers.Chelsa6_noland.K2.pdf")
+ggsave("output/WAVI.Genomic_offset.wavi_shp_simple.debug2.spectral.RDA_outliers.Chelsa6_noland.K2.geom_tile.pdf")
 ```
