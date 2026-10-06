@@ -54,12 +54,13 @@ qscat <- rast("~/Dropbox/BGP/rasters/other/qscat.tif")
 tree <- terra::rast("~/Downloads/tree_canopy_capacity_future/tcc_current_climate.tif")
 tree_proj <- project(tree, "EPSG:4326")  
 
-tree_fut <- terra::rast("~/Downloads/tree_canopy_capacity_future/tcc_ACCESS-CM2_ssp585_2081-2100.tif")
-tree_fut_proj <- project(tree, "EPSG:4326")  
+tree_fut585 <- terra::rast("~/Downloads/tree_canopy_capacity_future/tcc_ACCESS-CM2_ssp585_2081-2100.tif")
+tree_fut585_proj <- project(tree_fut585, "EPSG:4326")  
 
 ext(elevation_proj)
 ext(qscat)
 ext(tree_proj)
+ext(tree_fut585_proj)
 res(elevation_proj)
 res(qscat)
 res(tree_proj)
@@ -69,7 +70,7 @@ crs(tree_proj)
 
 elev_proj_matched <- resample(elevation_proj,qscat, method = "bilinear")
 tree_proj_matched <- resample(tree_proj,qscat, method = "bilinear")
-tree_fut_proj_matched <- resample(tree_fut_proj,qscat, method = "bilinear")
+tree_fut_proj_matched <- resample(tree_fut585_proj,qscat, method = "bilinear")
 
 ##Combine rasters into one stack
 srtmstack<-c(elev_proj_matched,  qscat, tree_proj_matched)

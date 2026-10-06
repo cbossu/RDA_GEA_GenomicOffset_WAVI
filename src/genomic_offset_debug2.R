@@ -16,6 +16,7 @@ genomic_offset <- function(RDA, K, env_pres, env_fut, range = NULL, method = "lo
   }
   class(env_pres)
   class(env_fut)
+  compareGeom(env_pres, env_fut)
   # Formatting and scaling environmental rasters for projection
   var_env_proj_pres1 <- as.data.frame(terra::as.points(env_pres[[row.names(RDA$CCA$biplot)]],values=T,na.rm=T),geom="XY")
   var_env_proj_pres2 <- var_env_proj_pres1 %>% dplyr::select(x,y,everything()) #put in order of x,y, everything

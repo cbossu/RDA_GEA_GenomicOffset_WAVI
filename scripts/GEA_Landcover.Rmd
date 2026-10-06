@@ -40,9 +40,9 @@ full_meta <- read.xlsx("~/Dropbox/BGP/WAVI/WAVI Master06292026.xlsx",sheet=4,det
   filter(Sample %in% full_inds$Sample) %>% 
   distinct() %>% 
   arrange(Sample)
-full_inds %>% left_join(full_meta) %>% write.table("WAVI249.GEA.sample_table.csv",row.names=F,quote=F,sep=",")
+full_inds %>% left_join(full_meta) %>% write.table("../input/WAVI249.GEA.sample_table.csv",row.names=F,quote=F,sep=",")
 
-full_meta<-read_delim("WAVI249.GEA.sample_table.csv",delim=",")
+full_meta<-read_delim("../input/WAVI249.GEA.sample_table.csv",delim=",")
 
 ```
   
@@ -154,6 +154,64 @@ percent_landcover_all <- extracted_filt_all %>%
   dplyr::select(-n)
 
 percent_landcover_wide_all <- percent_landcover_all %>%
+  pivot_wider(names_from = Class, values_from = percentage, values_fill = list(percentage = 0))
+
+pland_pops <- cbind(pop.buffer.order, percent_landcover_wide_all) %>% dplyr::select(-ID)
+
+pop_pland_per_ind <- full_meta %>% dplyr::select(Sample, Location) %>% left_join(pland_pops, by = "Location") %>% dplyr::select(-Location)
+
+write_tsv(pop_pland_per_ind, "WAVI.249inds.individual.pland_250m.tsv")
+```
+
+##check new tree raster (old had NA)
+```{r}
+tree<-terra::rast("~/Downloads/tree_canopy_capacity_future/tcc_current_climate.tif")
+
+pdf("~/Downloads/tree_canopy_capacity_future/tcc_current_climate.pdf")
+plot(tree)
+dev.off()
+```
+```{r}
+# we want to transform the coordinates from WGS84 to the Lambert's Projection
+if (st_crs(coords_all) != st_crs(tree)) {
+  coords_all <- st_transform(coords_all, crs = st_crs(tree))
+}
+crs(tree) == crs(coords_all)
+
+# define 111.111km (1 degree) further than points
+coords_all_bbox <- st_as_sfc(st_bbox(coords_all))
+coords_all_buffered <- st_buffer(coords_all_bbox, dist = 111111)
+tree_cropped <- terra::crop(tree, coords_all_buffered) # this may take a little while
+plot(tree_cropped)
+terra::points(vect(coords_all), pch = 2, col = "red")
+
+```
+
+```{r}
+coords_all <- coords_all %>% left_join(full_inds, by = "Sample") %>%
+  mutate()
+
+# create 250m radius buffers
+coords_all <- vect(coords_all) # must be spat vector for buffer function.
+buffers_all <- terra::buffer(coords_all, width = 250) # radius is in meters
+
+# to avoid resampling cells in overlapping buffers, we want to smush the buffers together
+# aggregate by population so that you can take avg land cover per population
+buffers_ag_all <- terra::aggregate(buffers_all, by = "Location", dissolve=T)
+
+# plot the buffers across the entire range
+plot(tree_cropped)
+plot(buffers_ag_all, add = TRUE, border = "red", lwd = 2)
+```
+
+```{r}
+pop.buffer.order <- as.data.frame(buffers_ag_all) %>% dplyr::select(Location)
+
+extracted_all <- terra::extract(tree_cropped, buffers_ag_all, cells = T, df = T, ID=T)
+
+extracted_filt_all <- extracted_all 
+
+percent_tree_wide_all <- extracted_filt_all %>%
   pivot_wider(names_from = Class, values_from = percentage, values_fill = list(percentage = 0))
 
 pland_pops <- cbind(pop.buffer.order, percent_landcover_wide_all) %>% dplyr::select(-ID)

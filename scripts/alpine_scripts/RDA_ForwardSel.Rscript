@@ -1,0 +1,144 @@
+R_MAX_VSIZE=350000000000
+#library(adegenet)
+library(vegan)
+library(tidyverse)
+require(readr)
+library(data.table)
+library(LEA)
+library(parallel)
+library(ggplot2)
+library(reshape2)
+library(caret)
+library(openxlsx)
+
+
+## Used plink with a fixed map file to create raw file, and then R to create LFMM file, removed 2nd through 6th column, but kept 1st column for name
+
+# Get current time in the desired format
+start_timestamp_txt <- as.POSIXct(format(Sys.time(), "%Y-%m-%d-%H:%M:%S"))
+start_timestamp <- as.POSIXct(format(Sys.time(), "%Y-%m-%d-%H:%M:%S"), format = "%Y-%m-%d-%H:%M:%S", tz = 'GMT')
+
+print(paste('Start time:', start_timestamp))
+
+## Now read this in R
+## Environment
+`%notin%`<-Negate(`%in%`)
+#env<-read_delim("WAVI.env_pland_ndvi.200ind.West_SW_SD_Hyb.csv",delim=",") %>% rename(long=Long,lat=Lat)
+env<-read_delim("WAVI.env_pland_treecc_ndvi.188ind.West_SW_SD_NoHyb.csv",delim=",") %>% rename(long=Long,lat=Lat)
+long_lat<-env %>% dplyr::select(long,lat)
+waviSampled <- read_delim("WAVI249.GEA.sample_table.csv",delim=",") %>% rename(long=longitude,lat=latitude) %>% filter(Sample %in% env$Sample)
+
+
+pred <- env %>% dplyr::select(EvergreenForest:NDVI_mean) # %>% dplyr::select(-HumanImpact_sum)
+
+# Correlation matrix
+cor_matrix <- cor(pred, use = "pairwise.complete.obs", method = "pearson")
+
+# Melt for ggplot
+cor_melted <- melt(cor_matrix)
+
+pdf("Heatmap.WAVI_Env_var.inclTree_buff.noHyb.pdf")
+ggplot(cor_melted, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  #geom_text(aes(label = round(value, 2)), size = 3) +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red",
+                       midpoint = 0, limits = c(-1, 1)) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(fill = "Pearson r", x = NULL, y = NULL)
+dev.off()
+
+
+
+#Make sure column names is pred and cor_matrix are the same (note- that they are)
+identical(colnames(pred), colnames(cor_matrix))
+# findCorrelation returns indices of variables to REMOVE
+to_remove <- findCorrelation(cor_matrix, cutoff = 0.7, verbose = TRUE)
+
+# Remove from dataframe
+vals_filtered <- pred[, -to_remove]
+
+# Check what was removed and what remains
+cat("Removed:", colnames(pred)[to_remove], "\n")
+cat("Kept:", colnames(vals_filtered), "\n")
+
+pred<-vals_filtered
+pred
+
+pred <- scale(pred, center=TRUE, scale=TRUE) # center=TRUE, scale=TRUE are the defaults for scale()
+
+## Recovering scaling coefficients
+scale_env <- attr(pred, 'scaled:scale')
+center_env <- attr(pred, 'scaled:center')
+
+## Climatic table as data fram
+pred2<-as.data.frame(pred)
+row.names(pred2) <- c(waviSampled$Sample)
+
+##Geno
+print(paste('Read in genotypes:'))
+
+#gen.impall<-fread(file="WAVI.pass-maf-0.05.biallelic.rm_mono.SNP.West_SW_SD_Hyb.gtgl_impute.convert.lfmm.w_indcol",sep=" ",row.names=1,header=F)
+#dim(gen.impall)
+gen.impall<-read.delim(file="WAVI.pass-maf-0.05b.biallelic.rm_mono2.SNP.West_SW_SD_NoHyb.gtgl_impute.convert.lfmm.w_indcol",sep=" ",row.names=1,header=F)
+#dt <- fread("WAVI.pass-maf-0.05.biallelic.rm_mono.SNP.West_SW_SD_Hyb.gtgl_impute.convert.lfmm.w_indcol",
+#            sep = " ",
+#            header = FALSE,
+#            nThread = 4,        # match cores requested in your SLURM job
+#            verbose = TRUE)     # shows you where time is actually going
+
+
+##finding dups- I don't think there are any
+#dupe_ids <- dt[[1]][duplicated(dt[[1]])]
+#dupe_ids
+
+#dt[dt[[1]] %in% dupe_ids, ]
+
+#print(paste('Are full identical rows same as duplicated IDS? Do numbers match below:'))
+#sum(duplicated(dt))          # fully identical rows
+#sum(duplicated(dt[[1]]))     # duplicated IDs only
+
+
+#gen.impall <- as.data.frame(dt)
+#   rownames(gen.impall) <- gen.impall[[1]]
+#   gen.impall[[1]] <- NULL
+
+dim(gen.impall) #confirm you have the correct # of inds
+
+##pca
+pca <- rda(gen.impall, scale=T)
+saveRDS(pca,"WAVI.188ind.pca.noHyb.RDS")
+
+
+print(paste('Saved pca'))
+
+##forward selection check
+print(paste('Run RDA models, null and model with explanatory variables'))
+
+wavi.mod0 <- rda(gen.impall  ~ 1, pred2) # Model with intercept only
+saveRDS(wavi.mod0,"WAVI.Null_model0.noHyb.RDS")
+#wavi.mod0 <- readRDS("WAVI.Null_model0.noHyb.RDS")
+print(paste('Saved null model'))
+
+print(paste('Started full model'))
+
+wavi.rda.all <- rda(gen.impall ~ ., pred2) # Model with all explanatory variables
+saveRDS(wavi.rda.all,"WAVI.RDAresutls.188Indiv_impute.West_SW_SD_NoHyb.uncor_env_b4_varsel.chelsa_land.RDS")
+#wavi.rda.all<-readRDS("WAVI.RDAresutls.188Indiv_impute.West_SW_SD_NoHyb.uncor_env_b4_varsel.chelsa_land.RDS")
+print(paste('Saved model model with ALL uncorrelated explanatory variables'))
+
+#RsquareAdj(rofi.rda.all)
+
+##Forward Selection
+print(paste('Started forward selection'))
+
+#Parallelizes the 999 permutations at each step
+# Parallel permutations within each step
+fit <- ordiR2step(wavi.mod0, scope = wavi.rda.all,
+                  direction="forward",
+                  Pin = 0.01,
+                  R2scope = TRUE,
+                  permutations = how(nperm = 199),
+                  parallel = 4)
+saveRDS(fit,"ForwardSel.WAVI.188ind.West_SW_SD_NoHyb.uncor_env.UncorrectedPop.RDS")
+

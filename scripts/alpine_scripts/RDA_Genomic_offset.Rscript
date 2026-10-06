@@ -1,0 +1,57 @@
+library(vegan)
+library(adegenet)
+library(tidyverse)
+require(readr)
+library(data.table)
+library(LEA)
+library(openxlsx)
+
+#source("src/generate_adaptwest_rasterstack.R")
+
+## Environment
+`%notin%`<-Negate(`%in%`)
+env<-read_delim("ROFI.subset203.33env.snowpack.julyppt.var_fixed.txt",delim="\t")%>% 
+   rename(long=Long,lat=Lat) %>% 
+   filter(BGP_ID %notin% c("18N01232","18N01235","18N01234","18N01233","18N01236","18N01251","18N01250","18N01249","18N01248","18N01247","18N01263")) %>% 
+   dplyr::select(-ppt1991_2020)
+
+long_lat<-env %>% dplyr::select(long,lat)
+rofiSampled <- env %>% filter(BGP_ID %notin% c("18N01232","18N01235","18N01234","18N01233","18N01236","18N01251","18N01250","18N01249","18N01248","18N01247","18N01263"))
+
+pred <- env %>% dplyr::select(ahm:elevation)
+pred <- scale(pred, center=TRUE, scale=TRUE) # center=TRUE, scale=TRUE are the defaults for scale()
+
+## Recovering scaling coefficients
+scale_env <- attr(pred, 'scaled:scale')
+center_env <- attr(pred, 'scaled:center')
+
+## Climatic table as data fram
+pred2<-as.data.frame(pred)
+row.names(pred2) <- c(rofiSampled$BGP_ID)
+
+##Geno
+gen.impall<-read.delim(file="RDA_Genomic_offset_BGP/ROFI.pass-maf-0.05.SNP.missing8.subset192.rm_batcheff19.rm_dup.biallelic.impute.lfmm.ind_col.txt",sep="\t",row.names=1,header=F)
+dim(gen.impall) #confirm you have the correct # of inds
+
+##pca
+pca <- rda(gen.impall, scale=T)
+
+
+##forward selection check
+rofi.mod0 <- rda(gen.impall  ~ 1, pred2) # Model with intercept only
+
+rofi.rda.all <- rda(gen.impall ~ ., pred2) # Model with all explanatory variables
+saveRDS(rofi.rda.all,"ROFI.RDAresutls.192Indiv_impute.all_env_b4_varsel.AdaptWest.RDS")
+#rofi.rda.all<-readRDS("ROFI.RDAresutls.192Indiv_impute.all_env_b4_varsel.AdaptWest.RDS")
+
+
+#RsquareAdj(rofi.rda.all)
+
+##Forward Selection
+mod<-ordiR2step(rofi.mod0,rofi.rda.all,direction="forward",R2permutations=1000,Pin=0.01,R2scope=T)  
+saveRDS(mod,"ForwardSel.ROFI.Env.UncorrectedPop.RDS")
+
+## Run outlier with variables selected by Gradient forest
+RDA_outliers <- rda(gen.impall ~ msp + shm + cmd + td + emt + rh,  pred2)
+saveRDS(RDA_outliers,"ROFI.RDAoutliers.192Indiv_impute.GF_AdaptWest.RDS")
+
